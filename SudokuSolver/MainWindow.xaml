@@ -1,0 +1,148 @@
+﻿<Window x:Class="SudokuSolver.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="750" Width="590">
+    <Border Margin="18, 25, 0, 0" HorizontalAlignment="Left" VerticalAlignment="Top" BorderBrush="Black" BorderThickness="3">
+    <Grid Name="MainGrid" Width="540" Height="540">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Border Margin="0, 0, 0, 0" HorizontalAlignment="Left" VerticalAlignment="Top" BorderBrush="Black" BorderThickness="0 0 2 2">
+                <Grid Name="TopLeftGrid">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="60" />
+                        <RowDefinition Height="60" />
+                        <RowDefinition Height="60" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="60" />
+                        <ColumnDefinition Width="60" />
+                        <ColumnDefinition Width="60" />
+                    </Grid.ColumnDefinitions>
+                </Grid>
+            </Border>
+            <Border Margin="0, 0, 0, 0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" BorderBrush="Black" BorderThickness="0 0 2 2">
+                <Grid Name="TopMiddleGrid">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="60" />
+                        <RowDefinition Height="60" />
+                        <RowDefinition Height="60" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="60" />
+                        <ColumnDefinition Width="60" />
+                        <ColumnDefinition Width="60" />
+                    </Grid.ColumnDefinitions>
+                </Grid>
+            </Border>
+            <Border Margin="0, 0, 0, 0" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Top" BorderBrush="Black" BorderThickness="0 0 0 2">
+                <Grid Name="TopRightGrid">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="60" />
+                    <RowDefinition Height="60" />
+                    <RowDefinition Height="60" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="60" />
+                    <ColumnDefinition Width="60" />
+                    <ColumnDefinition Width="60" />
+                </Grid.ColumnDefinitions>
+            </Grid>
+            </Border>
+            <Border Margin="0, 0, 0, 0" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" BorderBrush="Black" BorderThickness="0 0 2 2">
+                <Grid Name="MiddleLeftGrid">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="60" />
+                    <RowDefinition Height="60" />
+                    <RowDefinition Height="60" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="60" />
+                    <ColumnDefinition Width="60" />
+                    <ColumnDefinition Width="60" />
+                </Grid.ColumnDefinitions>
+            </Grid>
+            </Border>
+            <Border Margin="0, 0, 0, 0" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" BorderBrush="Black" BorderThickness="0 0 2 2">
+                <Grid Name="MiddleMiddleGrid">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="60" />
+                    <RowDefinition Height="60" />
+                    <RowDefinition Height="60" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="60" />
+                    <ColumnDefinition Width="60" />
+                    <ColumnDefinition Width="60" />
+                </Grid.ColumnDefinitions>
+            </Grid>
+            </Border>
+            <Border Margin="0, 0, 0, 0" Grid.Column="2" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" BorderBrush="Black" BorderThickness="0 0 0 2">
+                <Grid Name="MiddleRightGrid">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="60" />
+                    <RowDefinition Height="60" />
+                    <RowDefinition Height="60" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="60" />
+                    <ColumnDefinition Width="60" />
+                    <ColumnDefinition Width="60" />
+                </Grid.ColumnDefinitions>
+            </Grid>
+            </Border>
+            <Border Margin="0, 0, 0, 0" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Top" BorderBrush="Black" BorderThickness="0 0 2 0">
+                <Grid Name="BottomLeftGrid">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="60" />
+                    <RowDefinition Height="60" />
+                    <RowDefinition Height="60" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="60" />
+                    <ColumnDefinition Width="60" />
+                    <ColumnDefinition Width="60" />
+                </Grid.ColumnDefinitions>
+            </Grid>
+            </Border>
+            <Border Margin="0, 0, 0, 0" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Top" BorderBrush="Black" BorderThickness="0 0 2 0">
+                <Grid Name="BottomMiddleGrid">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="60" />
+                    <RowDefinition Height="60" />
+                    <RowDefinition Height="60" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="60" />
+                    <ColumnDefinition Width="60" />
+                    <ColumnDefinition Width="60" />
+                </Grid.ColumnDefinitions>
+            </Grid>
+            </Border>
+            <Border Margin="0, 0, 0, 0" Grid.Column="2" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Top" BorderBrush="Black" BorderThickness="0">
+                <Grid Name="BottomRightGrid">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="60" />
+                        <RowDefinition Height="60" />
+                        <RowDefinition Height="60" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="60" />
+                        <ColumnDefinition Width="60" />
+                        <ColumnDefinition Width="60" />
+                    </Grid.ColumnDefinitions>
+                </Grid>
+            </Border>
+        </Grid>
+    </Border>
+</Window>
