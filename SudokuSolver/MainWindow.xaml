@@ -4,8 +4,17 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="MainWindow" Height="750" Width="590">
-    <Border Margin="18, 25, 0, 0" HorizontalAlignment="Left" VerticalAlignment="Top" BorderBrush="Black" BorderThickness="3">
+        Title="MainWindow" Height="750" Width="590"
+        KeyDown="HandleKeyPress">
+    <Grid Name="WindowGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="600"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Border Margin="18, 25, 0, 0" HorizontalAlignment="Left" VerticalAlignment="Top" BorderBrush="Black" BorderThickness="3">
     <Grid Name="MainGrid" Width="540" Height="540">
             <Grid.RowDefinitions>
                 <RowDefinition />
@@ -145,4 +154,6 @@
             </Border>
         </Grid>
     </Border>
+    <Button Name="SolveButton" Background="LightGreen" Click="SolvePuzzle" Height="30" Width="100">Solve</Button>
+    </Grid>
 </Window>

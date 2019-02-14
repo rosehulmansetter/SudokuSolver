@@ -2,9 +2,9 @@
 {
     public static class GridMath
     {
-        public static int GetIndexByGridAndSquareIndexes(int gridRowIndex, int gridColumnIndex, int squareRowIndex, int squareColumnIndex)
+        public static int GetIndexByRowAndColumnIndexes(int rowIndex, int columnIndex)
         {
-            return 9 * (3 * gridRowIndex + squareRowIndex) + 3 * gridColumnIndex + squareColumnIndex;
+            return rowIndex * 9 + columnIndex;
         }
     }
 }

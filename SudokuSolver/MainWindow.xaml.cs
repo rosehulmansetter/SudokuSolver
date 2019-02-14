@@ -1,34 +1,21 @@
-﻿using System.Collections.Generic;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
-using SudokuRulesEngine;
 
 namespace SudokuSolver
 {
     public partial class MainWindow : Window
     {
-        private List<Cell> cells;
+        private CellGrid cellGrid;
         private const int SQUARE_SIZE = 3;
-        private const int TOTAL_NUMBER_OF_CELLS = 81;
 
         public MainWindow()
         {
             InitializeComponent();
-            cells = new List<Cell>();
-            GenerateCells();
+            cellGrid = new CellGrid();
             SetUpSquares();
-
-            cells[0].SetAsSelected();
-        }
-
-        private void GenerateCells()
-        {
-            for(int i = 0; i < TOTAL_NUMBER_OF_CELLS; i++)
-            {
-                Cell c = new Cell();
-                cells.Add(c);
-            }
+            SetUpButtons();
         }
 
         private void SetUpSquares()
@@ -50,7 +37,7 @@ namespace SudokuSolver
             {
                 for(int column = 0; column < SQUARE_SIZE; column++)
                 {
-                    Cell c = cells[GridMath.GetIndexByGridAndSquareIndexes(gridRowIndex, gridColumnIndex, row, column)];
+                    Cell c = cellGrid.GetCellByIndices(3 * gridRowIndex + row, 3 * gridColumnIndex + column);
 
                     Grid.SetRow(c, row);
                     Grid.SetColumn(c, column);
@@ -64,6 +51,49 @@ namespace SudokuSolver
                     grid.Children.Add(c);
                 }
             }
+        }
+
+        private void HandleKeyPress(object sender, KeyEventArgs e)
+        {
+            if(e.Key >= Key.D1 && e.Key <= Key.D9)
+            {
+                int numberPressed = e.Key - Key.D0;
+                cellGrid.EnterNumber(numberPressed);
+            }
+            else if(e.Key == Key.Space)
+            {
+                cellGrid.MoveToNext();
+            }
+            else if (e.Key == Key.Right)
+            {
+                cellGrid.MoveRight();
+            }
+            else if (e.Key == Key.Left)
+            {
+                cellGrid.MoveLeft();
+            }
+            else if (e.Key == Key.Up)
+            {
+                cellGrid.MoveUp();
+            }
+            else if(e.Key == Key.Down)
+            {
+                cellGrid.MoveDown();
+            }
+            else if(e.Key == Key.Back)
+            {
+                cellGrid.ClearSelectedCell();
+            }
+        }
+
+        private void SetUpButtons()
+        {
+            
+        }
+
+        private void SolvePuzzle(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
