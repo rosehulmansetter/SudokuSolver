@@ -88,12 +88,35 @@ namespace SudokuSolver
 
         private void SetUpButtons()
         {
-            
+            EditButton.IsEnabled = false;
+            ResetButton.IsEnabled = false;
         }
 
         private void SolvePuzzle(object sender, RoutedEventArgs e)
         {
+            //Disable solve button
+            //Disable edit button
+            //Disable clear button
+            //Unselect all cells
+            //Show hints
+            //Solve puzzle
+        }
 
+        private void EditPuzzle(object sender, RoutedEventArgs e)
+        {
+            //Disable edit button
+            //Enable other two buttons
+            //Hide hints
+            //Select top left cell
+        }
+
+        private void ResetPuzzle(object sender, RoutedEventArgs e)
+        {
+            //Disable edit button
+            //Enable other two buttons
+            //Hide hints
+            //Select top left cell
+            //Clear all values
         }
     }
 }

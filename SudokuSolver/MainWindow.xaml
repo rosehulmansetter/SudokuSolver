@@ -6,16 +6,9 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="750" Width="590"
         KeyDown="HandleKeyPress">
-    <Grid Name="WindowGrid">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="600"/>
-            <RowDefinition />
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-        </Grid.ColumnDefinitions>
+    <StackPanel>
         <Border Margin="18, 25, 0, 0" HorizontalAlignment="Left" VerticalAlignment="Top" BorderBrush="Black" BorderThickness="3">
-    <Grid Name="MainGrid" Width="540" Height="540">
+            <Grid Name="MainGrid" Width="540" Height="540">
             <Grid.RowDefinitions>
                 <RowDefinition />
                 <RowDefinition />
@@ -153,7 +146,16 @@
                 </Grid>
             </Border>
         </Grid>
-    </Border>
-    <Button Name="SolveButton" Background="LightGreen" Click="SolvePuzzle" Height="30" Width="100">Solve</Button>
-    </Grid>
+        </Border>
+        <Grid Name="ButtonGrid">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Button Name="SolveButton" Background="LightGreen" Click="SolvePuzzle" Height="30" Width="100" Margin="0 60 0 0" Grid.Column="0" Grid.Row="0">Solve</Button>
+            <Button Name="EditButton" Background="Yellow" Click="EditPuzzle" Height="30" Width="100" Margin="0 60 0 0" Grid.Column="1" Grid.Row="0">Edit</Button>
+            <Button Name="ResetButton" Background="LightGray" Click="ResetPuzzle" Height="30" Width="100" Margin="0 60 0 0" Grid.Column="2" Grid.Row="0">Reset</Button>
+        </Grid>
+    </StackPanel>
 </Window>

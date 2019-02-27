@@ -91,5 +91,10 @@ namespace SudokuSolver
         {
             cells[selectedCell].Unset();
         }
+
+        public void SetHintsVisible(bool visible)
+        {
+            cells.ForEach(c => c.SetHintsVisible(visible));
+        }
     }
 }

@@ -8,11 +8,13 @@ namespace SudokuSolver
     public partial class Cell : UserControl
     {
         private ArrayList possibleNumbers;
+        private bool showHints;
 
         public Cell()
         {
             InitializeComponent();
             SetInitialPotentialValues();
+            showHints = false;
             UpdateUI();
         }
 
@@ -38,10 +40,8 @@ namespace SudokuSolver
 
         private void UpdateUI()
         {
-            if(possibleNumbers.Count == 1)
+            if(!showHints || possibleNumbers.Count == 1)
             {
-                SolvedLabel.Visibility = System.Windows.Visibility.Visible;
-                SolvedLabel.Content = ((int)possibleNumbers[0]).ToString();
                 OneLabel.Visibility = System.Windows.Visibility.Hidden;
                 TwoLabel.Visibility = System.Windows.Visibility.Hidden;
                 ThreeLabel.Visibility = System.Windows.Visibility.Hidden;
@@ -51,6 +51,16 @@ namespace SudokuSolver
                 SevenLabel.Visibility = System.Windows.Visibility.Hidden;
                 EightLabel.Visibility = System.Windows.Visibility.Hidden;
                 NineLabel.Visibility = System.Windows.Visibility.Hidden;
+
+                if(possibleNumbers.Count == 1)
+                {
+                    SolvedLabel.Visibility = System.Windows.Visibility.Visible;
+                    SolvedLabel.Content = ((int)possibleNumbers[0]).ToString();
+                }
+                else
+                {
+                    SolvedLabel.Visibility = System.Windows.Visibility.Hidden;
+                }
             }
             else
             {
@@ -116,6 +126,12 @@ namespace SudokuSolver
         public void SetAsUnselected()
         {
             Background = Brushes.White;
+        }
+
+        public void SetHintsVisible(bool visible)
+        {
+            showHints = visible;
+            UpdateUI();
         }
     }
 }
