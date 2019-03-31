@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Windows.Controls;
 using System.Windows.Media;
 
@@ -7,7 +8,7 @@ namespace SudokuSolver
 {
     public partial class Cell : UserControl
     {
-        private ArrayList possibleNumbers;
+        private List<int> possibleNumbers;
         private bool showHints;
 
         public Cell()
@@ -20,21 +21,25 @@ namespace SudokuSolver
 
         private void SetInitialPotentialValues()
         {
-            possibleNumbers = new ArrayList() { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+            possibleNumbers = new List<int>() { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
         }
 
-        public ArrayList PossibleNumbers
+        public List<int> PossibleNumbers
         {
             set
             {
                 possibleNumbers = value;
                 UpdateUI();
             }
+            get
+            {
+                return possibleNumbers;
+            }
         }
 
         public void Set(int number)
         {
-            possibleNumbers = new ArrayList() { number };
+            possibleNumbers = new List<int>() { number };
             UpdateUI();
         }
 

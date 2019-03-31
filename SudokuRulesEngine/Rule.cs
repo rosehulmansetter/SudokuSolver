@@ -1,6 +1,6 @@
 ﻿namespace SudokuRulesEngine
 {
-    interface Rule
+    public interface Rule
     {
         void ApplyRule(ref Board board);
     }

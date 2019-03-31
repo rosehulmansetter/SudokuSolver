@@ -1,23 +1,35 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using SudokuRulesEngine;
 
 namespace SudokuSolver
 {
     public partial class MainWindow : Window
     {
-        private CellGrid cellGrid;
         private const int SQUARE_SIZE = 3;
+        private CellGrid cellGrid;
+        private RulesEngine rulesEngine;
         bool solving;
 
         public MainWindow()
         {
             InitializeComponent();
             cellGrid = new CellGrid();
+            InitializeRulesEngine();
             solving = false;
             SetUpSquares();
             SetButtonsToEditMode();
+        }
+
+        private void InitializeRulesEngine()
+        {
+            rulesEngine = new RulesEngine();
+            //add rules
+            rulesEngine.BoardChanged += HandleBoardChanged;
+            rulesEngine.SolutionComplete += HandleSolutionComplete;
         }
 
         private void SetUpSquares()
@@ -99,11 +111,7 @@ namespace SudokuSolver
             ResetButton.IsEnabled = false;
             cellGrid.UnselectSelectedCell();
             cellGrid.SetHintsVisible(true);
-            //Solve puzzle
-            SolveButton.IsEnabled = true;
-            EditButton.IsEnabled = true;
-            ResetButton.IsEnabled = true;
-            solving = false;
+            rulesEngine.Solve(cellGrid.GetSolvedCellData());
         }
 
         private void EditPuzzle(object sender, RoutedEventArgs e)
@@ -126,6 +134,20 @@ namespace SudokuSolver
             SolveButton.IsEnabled = true;
             EditButton.IsEnabled = false;
             ResetButton.IsEnabled = true;
+        }
+
+        void HandleBoardChanged(object sender, EventArgs boardArgs)
+        {
+            Board board = ((BoardEventArgs)boardArgs).BoardData;
+            cellGrid.UpdateBoard(board.GetCellData());
+        }
+
+        void HandleSolutionComplete(object sender, EventArgs args)
+        {
+            SolveButton.IsEnabled = true;
+            EditButton.IsEnabled = true;
+            ResetButton.IsEnabled = true;
+            solving = false;
         }
     }
 }

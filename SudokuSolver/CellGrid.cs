@@ -30,6 +30,11 @@ namespace SudokuSolver
             return cells[GridMath.GetIndexByRowAndColumnIndexes(rowIndex, columnIndex)];
         }
 
+        public Cell GetCellByIndex(int index)
+        {
+            return cells[index];
+        }
+
         public void EnterNumber(int numberPressed)
         {
             cells[selectedCell].Set(numberPressed);
@@ -112,6 +117,29 @@ namespace SudokuSolver
             foreach(Cell c in cells)
             {
                 c.Unset();
+            }
+        }
+
+        public Dictionary<int, int> GetSolvedCellData()
+        {
+            Dictionary<int, int> solvedCells = new Dictionary<int, int>();
+            for(int i = 0; i < 81; i++)
+            {
+                Cell cell = cells[i];
+                if(cell.PossibleNumbers.Count == 1)
+                {
+                    solvedCells.Add(i, (int)cell.PossibleNumbers[0]);
+                }
+            }
+
+            return solvedCells;
+        }
+
+        public void UpdateBoard(List<List<int>> allPossibleCellValues)
+        {
+            for(int i = 0; i < allPossibleCellValues.Count; i++)
+            {
+                cells[i].PossibleNumbers = allPossibleCellValues[i];
             }
         }
     }
