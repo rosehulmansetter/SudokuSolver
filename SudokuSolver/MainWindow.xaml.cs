@@ -9,13 +9,15 @@ namespace SudokuSolver
     {
         private CellGrid cellGrid;
         private const int SQUARE_SIZE = 3;
+        bool solving;
 
         public MainWindow()
         {
             InitializeComponent();
             cellGrid = new CellGrid();
+            solving = false;
             SetUpSquares();
-            SetUpButtons();
+            SetButtonsToEditMode();
         }
 
         private void SetUpSquares()
@@ -55,68 +57,75 @@ namespace SudokuSolver
 
         private void HandleKeyPress(object sender, KeyEventArgs e)
         {
-            if(e.Key >= Key.D1 && e.Key <= Key.D9)
+            if(!solving)
             {
-                int numberPressed = e.Key - Key.D0;
-                cellGrid.EnterNumber(numberPressed);
+                if (e.Key >= Key.D1 && e.Key <= Key.D9)
+                {
+                    int numberPressed = e.Key - Key.D0;
+                    cellGrid.EnterNumber(numberPressed);
+                }
+                else if (e.Key == Key.Space)
+                {
+                    cellGrid.MoveToNext();
+                }
+                else if (e.Key == Key.Right)
+                {
+                    cellGrid.MoveRight();
+                }
+                else if (e.Key == Key.Left)
+                {
+                    cellGrid.MoveLeft();
+                }
+                else if (e.Key == Key.Up)
+                {
+                    cellGrid.MoveUp();
+                }
+                else if (e.Key == Key.Down)
+                {
+                    cellGrid.MoveDown();
+                }
+                else if (e.Key == Key.Back)
+                {
+                    cellGrid.ClearSelectedCell();
+                }
             }
-            else if(e.Key == Key.Space)
-            {
-                cellGrid.MoveToNext();
-            }
-            else if (e.Key == Key.Right)
-            {
-                cellGrid.MoveRight();
-            }
-            else if (e.Key == Key.Left)
-            {
-                cellGrid.MoveLeft();
-            }
-            else if (e.Key == Key.Up)
-            {
-                cellGrid.MoveUp();
-            }
-            else if(e.Key == Key.Down)
-            {
-                cellGrid.MoveDown();
-            }
-            else if(e.Key == Key.Back)
-            {
-                cellGrid.ClearSelectedCell();
-            }
-        }
-
-        private void SetUpButtons()
-        {
-            EditButton.IsEnabled = false;
-            ResetButton.IsEnabled = false;
         }
 
         private void SolvePuzzle(object sender, RoutedEventArgs e)
         {
-            //Disable solve button
-            //Disable edit button
-            //Disable clear button
-            //Unselect all cells
-            //Show hints
+            solving = true;
+            SolveButton.IsEnabled = false;
+            EditButton.IsEnabled = false;
+            ResetButton.IsEnabled = false;
+            cellGrid.UnselectSelectedCell();
+            cellGrid.SetHintsVisible(true);
             //Solve puzzle
+            SolveButton.IsEnabled = true;
+            EditButton.IsEnabled = true;
+            ResetButton.IsEnabled = true;
+            solving = false;
         }
 
         private void EditPuzzle(object sender, RoutedEventArgs e)
         {
-            //Disable edit button
-            //Enable other two buttons
-            //Hide hints
-            //Select top left cell
+            SetButtonsToEditMode();
+            cellGrid.SetHintsVisible(false);
+            cellGrid.ResetSelectedCell();
         }
 
         private void ResetPuzzle(object sender, RoutedEventArgs e)
         {
-            //Disable edit button
-            //Enable other two buttons
-            //Hide hints
-            //Select top left cell
-            //Clear all values
+            SetButtonsToEditMode();
+            cellGrid.SetHintsVisible(false);
+            cellGrid.ResetSelectedCell();
+            cellGrid.ClearAllCellValues();
+        }
+
+        private void SetButtonsToEditMode()
+        {
+            SolveButton.IsEnabled = true;
+            EditButton.IsEnabled = false;
+            ResetButton.IsEnabled = true;
         }
     }
 }

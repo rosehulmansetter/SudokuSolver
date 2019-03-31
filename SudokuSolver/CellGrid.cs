@@ -13,9 +13,7 @@ namespace SudokuSolver
         {
             cells = new List<Cell>();
             GenerateCells();
-
-            selectedCell = 0;
-            cells[selectedCell].SetAsSelected();
+            ResetSelectedCell();
         }
 
         private void GenerateCells()
@@ -95,6 +93,26 @@ namespace SudokuSolver
         public void SetHintsVisible(bool visible)
         {
             cells.ForEach(c => c.SetHintsVisible(visible));
+        }
+
+        public void UnselectSelectedCell()
+        {
+            cells[selectedCell].SetAsUnselected();
+        }
+
+        public void ResetSelectedCell()
+        {
+            UnselectSelectedCell();
+            selectedCell = 0;
+            cells[selectedCell].SetAsSelected();
+        }
+
+        public void ClearAllCellValues()
+        {
+            foreach(Cell c in cells)
+            {
+                c.Unset();
+            }
         }
     }
 }
