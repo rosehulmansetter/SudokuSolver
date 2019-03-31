@@ -123,7 +123,7 @@ namespace SudokuSolver
         public Dictionary<int, int> GetSolvedCellData()
         {
             Dictionary<int, int> solvedCells = new Dictionary<int, int>();
-            for(int i = 0; i < 81; i++)
+            for(int i = 0; i < TOTAL_NUMBER_OF_CELLS; i++)
             {
                 Cell cell = cells[i];
                 if(cell.PossibleNumbers.Count == 1)
