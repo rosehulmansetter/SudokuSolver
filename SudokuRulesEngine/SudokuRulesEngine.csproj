@@ -44,6 +44,8 @@
     <Compile Include="GridMath.cs" />
     <Compile Include="Rule.cs" />
     <Compile Include="RulesEngine.cs" />
+    <Compile Include="Rules\ClearOptionsFromSolvedCells.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

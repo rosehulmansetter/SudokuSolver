@@ -24,7 +24,27 @@ namespace SudokuRulesEngine
 
         public bool IsSolved()
         {
-            return false;
+            foreach(List<int> cell in cellData)
+            {
+                if(cell.Count > 1)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        public bool RemoveValueFromCell(int index, int value)
+        {
+            bool actionTaken = false;
+
+            if(cellData[index].Contains(value))
+            {
+                cellData[index].Remove(value);
+                actionTaken = true;
+            }
+
+            return actionTaken;
         }
 
         public List<List<int>> GetCellData()

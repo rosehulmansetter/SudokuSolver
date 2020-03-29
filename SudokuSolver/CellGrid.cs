@@ -27,7 +27,7 @@ namespace SudokuSolver
 
         public Cell GetCellByIndices(int rowIndex, int columnIndex)
         {
-            return cells[GridMath.GetIndexByRowAndColumnIndexes(rowIndex, columnIndex)];
+            return cells[GridMath.GetIndexByRowAndColumnIndices(rowIndex, columnIndex)];
         }
 
         public Cell GetCellByIndex(int index)

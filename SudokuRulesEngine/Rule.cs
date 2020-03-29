@@ -2,6 +2,6 @@
 {
     public interface Rule
     {
-        void ApplyRule(ref Board board);
+        bool ApplyRule(ref Board board);
     }
 }

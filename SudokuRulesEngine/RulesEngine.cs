@@ -25,23 +25,21 @@ namespace SudokuRulesEngine
 
             do
             {
-                Board newBoard = board;
-
+                bool rulesFoundNewInfo = false;
                 foreach (Rule r in rules)
                 {
-                    r.ApplyRule(ref newBoard);
+                    rulesFoundNewInfo |= r.ApplyRule(ref board);
                 }
 
-                if (newBoard.IsSolved())
+                if (board.IsSolved())
                 {
-                    OnBoardChanged(new BoardEventArgs { BoardData = newBoard });
+                    OnBoardChanged(new BoardEventArgs { BoardData = board });
                     OnSolutionComplete(new EventArgs());
                     break;
                 }
-                else if (newBoard != board)
+                else if (rulesFoundNewInfo)
                 {
-                    OnBoardChanged(new BoardEventArgs { BoardData = newBoard });
-                    board = newBoard;
+                    OnBoardChanged(new BoardEventArgs { BoardData = board });
                 }
                 else
                 {
