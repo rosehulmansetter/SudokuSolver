@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace SudokuRulesEngine
@@ -32,6 +33,31 @@ namespace SudokuRulesEngine
                 }
             }
             return true;
+        }
+
+        internal Dictionary<int, List<int>> GetCellDataForSquare(int i)
+        {
+            return GetCellDataForIndices(GridMath.GetIndicesInSquare(i));
+        }
+
+        internal Dictionary<int, List<int>> GetCellDataForColumn(int i)
+        {
+            return GetCellDataForIndices(GridMath.GetIndicesInColumn(i));
+        }
+
+        internal Dictionary<int, List<int>> GetCellDataForRow(int i)
+        {
+            return GetCellDataForIndices(GridMath.GetIndicesInRow(i));
+        }
+
+        private Dictionary<int, List<int>> GetCellDataForIndices(List<int> indices)
+        {
+            Dictionary<int, List<int>> result = new Dictionary<int, List<int>>();
+            foreach (int index in indices)
+            {
+                result.Add(index, cellData[index]);
+            }
+            return result;
         }
 
         public bool RemoveValueFromCell(int index, int value)

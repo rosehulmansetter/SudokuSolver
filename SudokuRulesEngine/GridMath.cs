@@ -23,11 +23,46 @@ namespace SudokuRulesEngine
             return relatedCellIndices;
         }
 
+        internal static List<int> GetIndicesInColumn(int i)
+        {
+            List<int> indicesInColumn = new List<int>();
+            for (int cellIndex = i; indicesInColumn.Count < 9; cellIndex += 9)
+            {
+                indicesInColumn.Add(cellIndex);
+            }
+            return indicesInColumn;
+        }
+
+        internal static List<int> GetIndicesInRow(int i)
+        {
+            List<int> indicesInRow = new List<int>();
+            for(int cellIndex = 9*i; indicesInRow.Count < 9; cellIndex++)
+            {
+                indicesInRow.Add(cellIndex);
+            }
+            return indicesInRow;
+        }
+
+        public static List<int> GetIndicesInSquare(int squareIndex)
+        {
+            List<int> indicesInSquare = new List<int>();
+            int squareRowIndex = squareIndex / 3;
+            int squareColumnIndex = squareIndex % 3;
+            for (int row = squareRowIndex * 3; row < (squareRowIndex + 1) * 3; row++)
+            {
+                for (int column = squareColumnIndex * 3; column < (squareColumnIndex + 1) * 3; column++)
+                {
+                    indicesInSquare.Add(GetIndexByRowAndColumnIndices(row, column));
+                }
+            }
+            return indicesInSquare;
+        }
+
         private static List<int> GetIndicesInSameRow(int cellIndex)
         {
             List<int> indicesInSameRow = new List<int>();
             int rowIndex = cellIndex / 9;
-            for(int i = 0; i < 9; i++)
+            for (int i = 0; i < 9; i++)
             {
                 indicesInSameRow.Add(GetIndexByRowAndColumnIndices(rowIndex, i));
             }
@@ -60,7 +95,6 @@ namespace SudokuRulesEngine
                 }
             }
             return indicesInSameSquare;
-
         }
     }
 }

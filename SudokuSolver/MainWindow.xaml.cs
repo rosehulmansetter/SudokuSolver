@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using SudokuRulesEngine;
+using SudokuRulesEngine.Rules;
 
 namespace SudokuSolver
 {
@@ -27,7 +28,8 @@ namespace SudokuSolver
         private void InitializeRulesEngine()
         {
             rulesEngine = new RulesEngine();
-            //add rules
+            rulesEngine.AddRule(new ClearOptionsFromSolvedCells());
+            rulesEngine.AddRule(SolveForUniqueValuesInARowCellOrSquare());
             rulesEngine.BoardChanged += HandleBoardChanged;
             rulesEngine.SolutionComplete += HandleSolutionComplete;
         }
