@@ -1,11 +1,9 @@
-﻿using SudokuRulesEngine.ExtensionMethods;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace SudokuRulesEngine.Rules
 {
-    public class SolveForUniqueValuesInARowCellOrSquare : Rule
+    public class SolveForUniqueValuesInARowColumnOrSquare : Rule
     {
         public bool ApplyRule(ref Board board)
         {
@@ -54,12 +52,18 @@ namespace SudokuRulesEngine.Rules
         private bool SolveUniquePossibilitiesInCells(Board board, Dictionary<int, List<int>> cellData)
         {
             bool ruleSucceeded = false;
-            Dictionary<int, List<int>> unsolvedCells = cellData.Where(cell => cell.Value.Count > 1)
-                    .ToDictionary(cell => cell.Key, cell => cell.Value);
-            HashSet<int> unsolvedValues = new HashSet<int>();
-            foreach (List<int> unsolvedCellValues in unsolvedCells.Values)
+            Dictionary<int, List<int>> unsolvedCells = new Dictionary<int, List<int>>();
+            List<int> unsolvedValues = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+            foreach (int cellIndex in cellData.Keys)
             {
-                unsolvedValues.AddRange(unsolvedCellValues);
+                if(cellData[cellIndex].Count == 1)
+                {
+                    unsolvedValues.Remove(cellData[cellIndex].First());
+                }
+                else
+                {
+                    unsolvedCells.Add(cellIndex, cellData[cellIndex]);
+                }
             }
             foreach (int unsolvedValue in unsolvedValues)
             {

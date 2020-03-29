@@ -47,6 +47,7 @@
     <Compile Include="Rule.cs" />
     <Compile Include="RulesEngine.cs" />
     <Compile Include="Rules\ClearOptionsFromSolvedCells.cs" />
+    <Compile Include="Rules\SolveForUniqueValuesInARowColumnOrSquare.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

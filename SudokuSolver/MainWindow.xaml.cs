@@ -29,7 +29,7 @@ namespace SudokuSolver
         {
             rulesEngine = new RulesEngine();
             rulesEngine.AddRule(new ClearOptionsFromSolvedCells());
-            rulesEngine.AddRule(SolveForUniqueValuesInARowCellOrSquare());
+            rulesEngine.AddRule(new SolveForUniqueValuesInARowColumnOrSquare());
             rulesEngine.BoardChanged += HandleBoardChanged;
             rulesEngine.SolutionComplete += HandleSolutionComplete;
         }

@@ -17,11 +17,10 @@ namespace SudokuRulesEngine.Rules
                 {
                     HashSet<int> relatedCellIndices = GridMath.GetRelatedCellIndices(i);
                     IEnumerator<int> enumerator = relatedCellIndices.GetEnumerator();
-                    do
+                    while (enumerator.MoveNext())
                     {
                         ruleSuccess |= board.RemoveValueFromCell(enumerator.Current, currentCellValues.First());
                     }
-                    while (enumerator.MoveNext());
                 }
             }
 

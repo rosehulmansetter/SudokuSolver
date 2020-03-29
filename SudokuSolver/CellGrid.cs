@@ -38,7 +38,10 @@ namespace SudokuSolver
         public void EnterNumber(int numberPressed)
         {
             cells[selectedCell].Set(numberPressed);
-            SetSelectedIndex(selectedCell + 1);
+            if(selectedCell + 1 < TOTAL_NUMBER_OF_CELLS)
+            {
+                SetSelectedIndex(selectedCell + 1);
+            }
         }
 
         private void SetSelectedIndex(int selectedIndex)
