@@ -18,6 +18,7 @@ namespace SudokuRulesEngine
             relatedCellIndices.AddRange(GetIndicesInSameRow(cellIndex));
             relatedCellIndices.AddRange(GetIndicesInSameColumn(cellIndex));
             relatedCellIndices.AddRange(GetIndicesInSameSquare(cellIndex));
+            relatedCellIndices.Remove(cellIndex);
 
             return relatedCellIndices;
         }
