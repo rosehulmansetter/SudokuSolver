@@ -6,6 +6,16 @@ namespace SudokuRulesEngine
 {
     public static class GridMath
     {
+        public static int GetRowForIndex(int cellIndex)
+        {
+            return cellIndex / 9;
+        }
+
+        public static int GetColumnForIndex(int cellIndex)
+        {
+            return cellIndex % 9;
+        }
+
         public static int GetIndexByRowAndColumnIndices(int rowIndex, int columnIndex)
         {
             return rowIndex * 9 + columnIndex;
@@ -58,7 +68,7 @@ namespace SudokuRulesEngine
             return indicesInSquare;
         }
 
-        private static List<int> GetIndicesInSameRow(int cellIndex)
+        public static List<int> GetIndicesInSameRow(int cellIndex)
         {
             List<int> indicesInSameRow = new List<int>();
             int rowIndex = cellIndex / 9;
@@ -69,7 +79,7 @@ namespace SudokuRulesEngine
             return indicesInSameRow;
         }
 
-        private static List<int> GetIndicesInSameColumn(int cellIndex)
+        public static List<int> GetIndicesInSameColumn(int cellIndex)
         {
             List<int> indicesInSameColumn = new List<int>();
             int columnIndex = cellIndex % 9;
@@ -80,7 +90,7 @@ namespace SudokuRulesEngine
             return indicesInSameColumn;
         }
 
-        private static List<int> GetIndicesInSameSquare(int cellIndex)
+        public static List<int> GetIndicesInSameSquare(int cellIndex)
         {
             List<int> indicesInSameSquare = new List<int>();
             int rowIndex = cellIndex / 9;

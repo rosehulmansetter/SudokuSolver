@@ -23,6 +23,30 @@ namespace SudokuRulesEngine
             cellData[index] = new List<int> { value };
         }
 
+        internal CellDataStatus GetSquareStatus(int squareNumber)
+        {
+            CellDataStatus status = new CellDataStatus();
+            Dictionary<int, List<int>> squareCells = GetCellDataForSquare(squareNumber);
+
+            Dictionary<int, List<int>> unsolvedCells = new Dictionary<int, List<int>>();
+            List<int> unsolvedValues = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+
+            foreach (int cellIndex in squareCells.Keys)
+            {
+                if (squareCells[cellIndex].Count == 1)
+                {
+                    unsolvedValues.Remove(squareCells[cellIndex].First());
+                }
+                else
+                {
+                    status.UnsolvedCells.Add(cellIndex, squareCells[cellIndex]);
+                }
+            }
+            status.UnsolvedValues = unsolvedValues;
+
+            return status;
+        }
+
         public bool IsSolved()
         {
             foreach(List<int> cell in cellData)
@@ -112,6 +136,28 @@ namespace SudokuRulesEngine
         public static bool operator !=(Board board1, Board board2)
         {
             return !(board1 == board2);
+        }
+    }
+
+    public class CellDataStatus
+    {
+        public List<int> UnsolvedValues = new List<int>();
+
+        public Dictionary<int, List<int>> UnsolvedCells = new Dictionary<int, List<int>>();
+
+        public List<int> GetCellIndicesWithValue(int i)
+        {
+            List<int> result = new List<int>();
+
+            foreach(int cellIndex in UnsolvedCells.Keys)
+            {
+                if(UnsolvedCells[cellIndex].Contains(i))
+                {
+                    result.Add(cellIndex);
+                }
+            }
+
+            return result;
         }
     }
 }
