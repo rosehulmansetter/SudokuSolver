@@ -13,14 +13,14 @@ namespace SudokuSolver
         private const int SQUARE_SIZE = 3;
         private CellGrid cellGrid;
         private RulesEngine rulesEngine;
-        bool solving;
+        GameMode Mode;
 
         public MainWindow()
         {
             InitializeComponent();
             cellGrid = new CellGrid();
             InitializeRulesEngine();
-            solving = false;
+            Mode = GameMode.Edit;
             SetUpSquares();
             SetButtonsToEditMode();
         }
@@ -72,43 +72,45 @@ namespace SudokuSolver
 
         private void HandleKeyPress(object sender, KeyEventArgs e)
         {
-            if(!solving)
+            if (Mode != GameMode.Edit)
             {
-                if (e.Key >= Key.D1 && e.Key <= Key.D9)
-                {
-                    int numberPressed = e.Key - Key.D0;
-                    cellGrid.EnterNumber(numberPressed);
-                }
-                else if (e.Key == Key.Space)
-                {
-                    cellGrid.MoveToNext();
-                }
-                else if (e.Key == Key.Right)
-                {
-                    cellGrid.MoveRight();
-                }
-                else if (e.Key == Key.Left)
-                {
-                    cellGrid.MoveLeft();
-                }
-                else if (e.Key == Key.Up)
-                {
-                    cellGrid.MoveUp();
-                }
-                else if (e.Key == Key.Down)
-                {
-                    cellGrid.MoveDown();
-                }
-                else if (e.Key == Key.Back)
-                {
-                    cellGrid.ClearSelectedCell();
-                }
+                return;
+            }
+
+            if (e.Key >= Key.D1 && e.Key <= Key.D9)
+            {
+                int numberPressed = e.Key - Key.D0;
+                cellGrid.EnterNumber(numberPressed);
+            }
+            else if (e.Key == Key.Space)
+            {
+                cellGrid.MoveToNext();
+            }
+            else if (e.Key == Key.Right)
+            {
+                cellGrid.MoveRight();
+            }
+            else if (e.Key == Key.Left)
+            {
+                cellGrid.MoveLeft();
+            }
+            else if (e.Key == Key.Up)
+            {
+                cellGrid.MoveUp();
+            }
+            else if (e.Key == Key.Down)
+            {
+                cellGrid.MoveDown();
+            }
+            else if (e.Key == Key.Back)
+            {
+                cellGrid.ClearSelectedCell();
             }
         }
 
         private void SolvePuzzle(object sender, RoutedEventArgs e)
         {
-            solving = true;
+            Mode = GameMode.Solving;
             SolveButton.IsEnabled = false;
             EditButton.IsEnabled = false;
             ResetButton.IsEnabled = false;
@@ -119,6 +121,7 @@ namespace SudokuSolver
 
         private void EditPuzzle(object sender, RoutedEventArgs e)
         {
+            Mode = GameMode.Edit;
             SetButtonsToEditMode();
             cellGrid.SetHintsVisible(false);
             cellGrid.ResetSelectedCell();
@@ -126,6 +129,7 @@ namespace SudokuSolver
 
         private void ResetPuzzle(object sender, RoutedEventArgs e)
         {
+            Mode = GameMode.Edit;
             SetButtonsToEditMode();
             cellGrid.SetHintsVisible(false);
             cellGrid.ResetSelectedCell();
@@ -147,10 +151,14 @@ namespace SudokuSolver
 
         void HandleSolutionComplete(object sender, EventArgs args)
         {
-            SolveButton.IsEnabled = true;
             EditButton.IsEnabled = true;
             ResetButton.IsEnabled = true;
-            solving = false;
         }
+    }
+
+    public enum GameMode
+    {
+        Edit,
+        Solving
     }
 }

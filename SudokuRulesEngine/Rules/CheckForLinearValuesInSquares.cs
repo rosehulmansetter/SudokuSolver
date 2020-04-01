@@ -17,10 +17,10 @@ namespace SudokuRulesEngine.Rules
                     List<int> cellIndicesWithValue = status.GetCellIndicesWithValue(unsolvedValue);
                     if (InSameRow(cellIndicesWithValue))
                     {
-                        List<int> allCellIndicesInRow = GridMath.GetIndicesInSameRow(cellIndicesWithValue.First());
-                        foreach(int cellIndex in allCellIndicesInRow)
+                        Dictionary<int, List<int>> allCellsInRow = board.GetCellDataForRow(GridMath.GetRowForIndex(cellIndicesWithValue.First()));
+                        foreach(int cellIndex in allCellsInRow.Keys)
                         {
-                            if(!cellIndicesWithValue.Contains(cellIndex) && status.UnsolvedCells[cellIndex].Contains(unsolvedValue))
+                            if(!cellIndicesWithValue.Contains(cellIndex) && allCellsInRow[cellIndex].Contains(unsolvedValue))
                             {
                                 ruleSucceeded = true;
                                 board.RemoveValueFromCell(cellIndex, unsolvedValue);
@@ -29,10 +29,10 @@ namespace SudokuRulesEngine.Rules
                     }
                     else if (InSameColumn(cellIndicesWithValue))
                     {
-                        List<int> allCellIndicesInColumn = GridMath.GetIndicesInSameColumn(cellIndicesWithValue.First());
-                        foreach (int cellIndex in allCellIndicesInColumn)
+                        Dictionary<int, List<int>> allCellsInColumn = board.GetCellDataForColumn(GridMath.GetColumnForIndex(cellIndicesWithValue.First()));
+                        foreach (int cellIndex in allCellsInColumn.Keys)
                         {
-                            if (!cellIndicesWithValue.Contains(cellIndex) && status.UnsolvedCells[cellIndex].Contains(unsolvedValue))
+                            if (!cellIndicesWithValue.Contains(cellIndex) && allCellsInColumn[cellIndex].Contains(unsolvedValue))
                             {
                                 ruleSucceeded = true;
                                 board.RemoveValueFromCell(cellIndex, unsolvedValue);
