@@ -48,6 +48,7 @@
     <Compile Include="RulesEngine.cs" />
     <Compile Include="Rules\CheckForLinearValuesInSquares.cs" />
     <Compile Include="Rules\ClearOptionsFromSolvedCells.cs" />
+    <Compile Include="Rules\SeparateGroupsIntoSubsets.cs" />
     <Compile Include="Rules\SolveForUniqueValuesInARowColumnOrSquare.cs" />
   </ItemGroup>
   <ItemGroup>
