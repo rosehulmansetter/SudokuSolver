@@ -11,33 +11,22 @@ namespace SudokuRulesEngine.Rules
 
             for(int squareNumber = 0; squareNumber < 9; squareNumber++)
             {
-                CellDataStatus status = board.GetSquareStatus(squareNumber);
-                foreach(int unsolvedValue in status.UnsolvedValues)
+                CellData cellData = board.GetCellDataForSquare(squareNumber);
+
+                foreach(int unsolvedValue in cellData.GetUnsolvedValues())
                 {
-                    List<int> cellIndicesWithValue = status.GetCellIndicesWithValue(unsolvedValue);
-                    if (InSameRow(cellIndicesWithValue))
+                    List<int> cellIndicesWithUnsolvedValue = cellData.GetCellIndicesWithValue(unsolvedValue);
+                    if (InSameRow(cellIndicesWithUnsolvedValue))
                     {
-                        Dictionary<int, List<int>> allCellsInRow = board.GetCellDataForRow(GridMath.GetRowForIndex(cellIndicesWithValue.First()));
-                        foreach(int cellIndex in allCellsInRow.Keys)
-                        {
-                            if(!cellIndicesWithValue.Contains(cellIndex) && allCellsInRow[cellIndex].Contains(unsolvedValue))
-                            {
-                                ruleSucceeded = true;
-                                board.RemoveValueFromCell(cellIndex, unsolvedValue);
-                            }
-                        }
+                        CellData allCellsInRow = board.GetCellDataForRow(GridMath.GetRowForIndex(cellIndicesWithUnsolvedValue.First()));
+                        bool removalSucceeded = RemoveUnsolvedValueFromCellsNotInSquare(ref board, unsolvedValue, squareNumber, allCellsInRow);
+                        ruleSucceeded |= removalSucceeded;
                     }
-                    else if (InSameColumn(cellIndicesWithValue))
+                    else if (InSameColumn(cellIndicesWithUnsolvedValue))
                     {
-                        Dictionary<int, List<int>> allCellsInColumn = board.GetCellDataForColumn(GridMath.GetColumnForIndex(cellIndicesWithValue.First()));
-                        foreach (int cellIndex in allCellsInColumn.Keys)
-                        {
-                            if (!cellIndicesWithValue.Contains(cellIndex) && allCellsInColumn[cellIndex].Contains(unsolvedValue))
-                            {
-                                ruleSucceeded = true;
-                                board.RemoveValueFromCell(cellIndex, unsolvedValue);
-                            }
-                        }
+                        CellData allCellsInColumn = board.GetCellDataForColumn(GridMath.GetColumnForIndex(cellIndicesWithUnsolvedValue.First()));
+                        bool removalSucceeded = RemoveUnsolvedValueFromCellsNotInSquare(ref board, unsolvedValue, squareNumber, allCellsInColumn);
+                        ruleSucceeded |= removalSucceeded;
                     }
                 }
             }
@@ -47,14 +36,28 @@ namespace SudokuRulesEngine.Rules
 
         private bool InSameRow(List<int> cellIndicesWithValue)
         {
-            var row = GridMath.GetRowForIndex(cellIndicesWithValue.First());
-            return cellIndicesWithValue.All(x => GridMath.GetRowForIndex(x) == row);
+            return cellIndicesWithValue.Select(x => GridMath.GetRowForIndex(x)).Distinct().Count() == 1;
         }
 
         private bool InSameColumn(List<int> cellIndicesWithValue)
         {
-            var column = GridMath.GetColumnForIndex(cellIndicesWithValue.First());
-            return cellIndicesWithValue.All(x => GridMath.GetColumnForIndex(x) == column);
+            return cellIndicesWithValue.Select(x => GridMath.GetColumnForIndex(x)).Distinct().Count() == 1;
+        }
+
+        private bool RemoveUnsolvedValueFromCellsNotInSquare(ref Board board, int unsolvedValue, int squareNumber, CellData cells)
+        {
+            bool success = false;
+
+            foreach (int cellIndex in cells.Keys)
+            {
+                if (GridMath.GetSquareForIndex(cellIndex) != squareNumber)
+                {
+                    bool removalSucceeded = board.RemoveValueFromCell(cellIndex, unsolvedValue);
+                    success |= removalSucceeded;
+                }
+            }
+
+            return success;
         }
     }
 }

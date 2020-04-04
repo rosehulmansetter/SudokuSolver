@@ -26,9 +26,11 @@ namespace SudokuRulesEngine
             do
             {
                 bool rulesFoundNewInfo = false;
-                foreach (Rule r in rules)
+                var enumerator = rules.GetEnumerator();
+
+                while(!rulesFoundNewInfo && enumerator.MoveNext())
                 {
-                    rulesFoundNewInfo |= r.ApplyRule(ref board);
+                    enumerator.Current.ApplyRule(ref board);
                 }
 
                 if (board.IsSolved())

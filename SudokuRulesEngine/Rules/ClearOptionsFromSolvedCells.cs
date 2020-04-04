@@ -19,7 +19,8 @@ namespace SudokuRulesEngine.Rules
                     IEnumerator<int> enumerator = relatedCellIndices.GetEnumerator();
                     while (enumerator.MoveNext())
                     {
-                        ruleSuccess |= board.RemoveValueFromCell(enumerator.Current, currentCellValues.First());
+                        bool removalSuccessful = board.RemoveValueFromCell(enumerator.Current, currentCellValues.First());
+                        ruleSuccess |= removalSuccessful;
                     }
                 }
             }

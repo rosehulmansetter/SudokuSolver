@@ -7,49 +7,50 @@ namespace SudokuRulesEngine.Rules
     {
         public bool ApplyRule(ref Board board)
         {
-            bool ruleSucceeded = false;
+            bool ruleSucceededForRows = ApplyRuleForAllRows(ref board);
+            bool ruleSucceededForColumns = ApplyRuleForAllColumns(ref board);
+            bool ruleSucceededSquares = ApplyRuleForAllSquares(ref board);
 
-            ruleSucceeded |= ApplyRuleForAllRows(board);
-            ruleSucceeded |= ApplyRuleForAllColumns(board);
-            ruleSucceeded |= ApplyRuleForAllSquares(board);
-
-            return ruleSucceeded;
+            return ruleSucceededForRows || ruleSucceededForColumns || ruleSucceededSquares;
         }
 
-        private bool ApplyRuleForAllSquares(Board board)
+        private bool ApplyRuleForAllRows(ref Board board)
         {
             bool ruleSucceeded = false;
 
             for (int i = 0; i < 9; i++)
             {
-                ruleSucceeded |= SolveUniquePossibilitiesInCells(board, board.GetCellDataForSquare(i));
+                bool ruleSucceededForCells = SolveUniquePossibilitiesInCells(ref board, board.GetCellDataForRow(i));
+                ruleSucceeded |= ruleSucceededForCells;
             }
             return ruleSucceeded;
         }
 
-        private bool ApplyRuleForAllColumns(Board board)
+        private bool ApplyRuleForAllColumns(ref Board board)
         {
             bool ruleSucceeded = false;
 
             for (int i = 0; i < 9; i++)
             {
-                ruleSucceeded |= SolveUniquePossibilitiesInCells(board, board.GetCellDataForColumn(i));
+                bool ruleSucceededForCells = SolveUniquePossibilitiesInCells(ref board, board.GetCellDataForColumn(i));
+                ruleSucceeded |= ruleSucceededForCells;
             }
             return ruleSucceeded;
         }
 
-        private bool ApplyRuleForAllRows(Board board)
+        private bool ApplyRuleForAllSquares(ref Board board)
         {
             bool ruleSucceeded = false;
 
             for (int i = 0; i < 9; i++)
             {
-                ruleSucceeded |= SolveUniquePossibilitiesInCells(board, board.GetCellDataForRow(i));
+                bool ruleSucceededForCells = SolveUniquePossibilitiesInCells(ref board, board.GetCellDataForSquare(i));
+                ruleSucceeded |= ruleSucceededForCells;
             }
             return ruleSucceeded;
         }
 
-        private bool SolveUniquePossibilitiesInCells(Board board, Dictionary<int, List<int>> cellData)
+        private bool SolveUniquePossibilitiesInCells(ref Board board, Dictionary<int, List<int>> cellData)
         {
             bool ruleSucceeded = false;
             Dictionary<int, List<int>> unsolvedCells = new Dictionary<int, List<int>>();

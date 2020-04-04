@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SudokuRulesEngine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Windows.Controls;
@@ -21,7 +22,7 @@ namespace SudokuSolver
 
         private void SetInitialPotentialValues()
         {
-            possibleNumbers = new List<int>() { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+            possibleNumbers = GridMath.AllPossibleValues();
         }
 
         public List<int> PossibleNumbers

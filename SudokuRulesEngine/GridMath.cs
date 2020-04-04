@@ -6,6 +6,16 @@ namespace SudokuRulesEngine
 {
     public static class GridMath
     {
+        public static List<int> AllPossibleValues()
+        {
+            return new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+        }
+
+        public static int GetIndexByRowAndColumnIndices(int rowIndex, int columnIndex)
+        {
+            return rowIndex * 9 + columnIndex;
+        }
+
         public static int GetRowForIndex(int cellIndex)
         {
             return cellIndex / 9;
@@ -16,9 +26,9 @@ namespace SudokuRulesEngine
             return cellIndex % 9;
         }
 
-        public static int GetIndexByRowAndColumnIndices(int rowIndex, int columnIndex)
+        public static int GetSquareForIndex(int cellIndex)
         {
-            return rowIndex * 9 + columnIndex;
+            return 3 * (GetRowForIndex(cellIndex) / 3) + GetColumnForIndex(cellIndex) / 3;
         }
 
         public static HashSet<int> GetRelatedCellIndices(int cellIndex)

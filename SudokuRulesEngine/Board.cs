@@ -11,67 +11,53 @@ namespace SudokuRulesEngine
         public Board()
         {
             cellData = new List<List<int>>();
+            InitializeBoardValues();
+        }
 
-            for(int i = 0; i < 81; i++)
+        private void InitializeBoardValues()
+        {
+            for (int i = 0; i < 81; i++)
             {
-                cellData.Add(new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 });
+                cellData.Add(GridMath.AllPossibleValues());
             }
         }
 
-        public void SetCell(int index, int value)
+        internal void SetCell(int index, int value)
         {
             cellData[index] = new List<int> { value };
         }
 
-        internal CellDataStatus GetSquareStatus(int squareNumber)
+        internal bool RemoveValueFromCell(int index, int value)
         {
-            CellDataStatus status = new CellDataStatus();
-            Dictionary<int, List<int>> squareCells = GetCellDataForSquare(squareNumber);
+            bool actionTaken = false;
 
-            Dictionary<int, List<int>> unsolvedCells = new Dictionary<int, List<int>>();
-            List<int> unsolvedValues = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-
-            foreach (int cellIndex in squareCells.Keys)
+            if (cellData[index].Contains(value))
             {
-                if (squareCells[cellIndex].Count == 1)
-                {
-                    unsolvedValues.Remove(squareCells[cellIndex].First());
-                }
-                else
-                {
-                    status.UnsolvedCells.Add(cellIndex, squareCells[cellIndex]);
-                }
+                cellData[index].Remove(value);
+                actionTaken = true;
             }
-            status.UnsolvedValues = unsolvedValues;
 
-            return status;
+            return actionTaken;
         }
 
-        public bool IsSolved()
+        internal bool IsSolved()
         {
-            foreach(List<int> cell in cellData)
-            {
-                if(cell.Count > 1)
-                {
-                    return false;
-                }
-            }
-            return true;
+            return cellData.All(c => c.Count == 1);
         }
 
-        internal Dictionary<int, List<int>> GetCellDataForSquare(int i)
+        internal CellData GetCellDataForSquare(int i)
         {
-            return GetCellDataForIndices(GridMath.GetIndicesInSquare(i));
+            return new CellData(GetCellDataForIndices(GridMath.GetIndicesInSquare(i)));
         }
 
-        internal Dictionary<int, List<int>> GetCellDataForColumn(int i)
+        internal CellData GetCellDataForColumn(int i)
         {
-            return GetCellDataForIndices(GridMath.GetIndicesInColumn(i));
+            return new CellData(GetCellDataForIndices(GridMath.GetIndicesInColumn(i)));
         }
 
-        internal Dictionary<int, List<int>> GetCellDataForRow(int i)
+        internal CellData GetCellDataForRow(int i)
         {
-            return GetCellDataForIndices(GridMath.GetIndicesInRow(i));
+            return new CellData(GetCellDataForIndices(GridMath.GetIndicesInRow(i)));
         }
 
         private Dictionary<int, List<int>> GetCellDataForIndices(List<int> indices)
@@ -82,19 +68,6 @@ namespace SudokuRulesEngine
                 result.Add(index, cellData[index]);
             }
             return result;
-        }
-
-        public bool RemoveValueFromCell(int index, int value)
-        {
-            bool actionTaken = false;
-
-            if(cellData[index].Contains(value))
-            {
-                cellData[index].Remove(value);
-                actionTaken = true;
-            }
-
-            return actionTaken;
         }
 
         public List<List<int>> GetCellData()
@@ -136,28 +109,6 @@ namespace SudokuRulesEngine
         public static bool operator !=(Board board1, Board board2)
         {
             return !(board1 == board2);
-        }
-    }
-
-    public class CellDataStatus
-    {
-        public List<int> UnsolvedValues = new List<int>();
-
-        public Dictionary<int, List<int>> UnsolvedCells = new Dictionary<int, List<int>>();
-
-        public List<int> GetCellIndicesWithValue(int i)
-        {
-            List<int> result = new List<int>();
-
-            foreach(int cellIndex in UnsolvedCells.Keys)
-            {
-                if(UnsolvedCells[cellIndex].Contains(i))
-                {
-                    result.Add(cellIndex);
-                }
-            }
-
-            return result;
         }
     }
 }
