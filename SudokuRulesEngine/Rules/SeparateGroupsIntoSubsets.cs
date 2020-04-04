@@ -67,8 +67,26 @@ namespace SudokuRulesEngine.Rules
             return ruleSucceeded;
         }
 
-        private bool SolveForCells(int groupSize, ref Board board, Dictionary<int, List<int>> cellData)
+        private bool SolveForCells(int groupSize, ref Board board, CellData cellData)
         {
+            var unsolvedValues = cellData.GetUnsolvedValues();
+            var unsolvedCells = cellData.GetUnsolvedCells();
+
+            if(groupSize >= unsolvedCells.Count)
+            {
+                return false;
+            }
+
+
+            //for each set of groupSize values
+            //- check cells to see if only groupSize cells contain these values
+            //- if values are contained within groupSize cells
+            //  - cells containing values should ONLY contain those values
+            
+            //for each set of groupSize cells
+            //- check values in cells to see if only groupSize values are contained in these cells
+            //- if values are contained within groupSize cells
+            //  - cells not in this group should NOT contain these values
             return false;
         }
     }

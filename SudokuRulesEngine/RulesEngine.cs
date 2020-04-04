@@ -30,7 +30,7 @@ namespace SudokuRulesEngine
 
                 while(!rulesFoundNewInfo && enumerator.MoveNext())
                 {
-                    enumerator.Current.ApplyRule(ref board);
+                    rulesFoundNewInfo = enumerator.Current.ApplyRule(ref board);
                 }
 
                 if (board.IsSolved())

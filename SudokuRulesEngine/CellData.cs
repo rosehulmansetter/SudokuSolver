@@ -22,12 +22,12 @@ namespace SudokuRulesEngine
 
         public Dictionary<int, List<int>> GetUnsolvedCells()
         {
-            return (Dictionary<int, List<int>>)this.Where(kv => kv.Value.Count > 1);
+            return this.Where(kv => kv.Value.Count > 1).ToDictionary(kv => kv.Key, kv => kv.Value);
         }
 
         internal List<int> GetCellIndicesWithValue(int unsolvedValue)
         {
-            return (List<int>)Keys.Where(k => this[k].Contains(unsolvedValue));
+            return Keys.Where(k => this[k].Contains(unsolvedValue)).ToList<int>();
         }
     }
 }

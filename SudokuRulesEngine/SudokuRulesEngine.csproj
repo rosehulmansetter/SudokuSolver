@@ -44,6 +44,7 @@
     <Compile Include="BoardEventArgs.cs" />
     <Compile Include="CellData.cs" />
     <Compile Include="ExtensionMethods\HashSetExtensions.cs" />
+    <Compile Include="ExtensionMethods\ListExtensions.cs" />
     <Compile Include="GridMath.cs" />
     <Compile Include="Rule.cs" />
     <Compile Include="RulesEngine.cs" />
@@ -51,6 +52,7 @@
     <Compile Include="Rules\ClearOptionsFromSolvedCells.cs" />
     <Compile Include="Rules\SeparateGroupsIntoSubsets.cs" />
     <Compile Include="Rules\SolveForUniqueValuesInARowColumnOrSquare.cs" />
+    <Compile Include="SubsetIterator.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

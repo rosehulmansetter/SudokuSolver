@@ -39,22 +39,22 @@ namespace SudokuRulesEngine
 
         internal CellData GetCellDataForSquare(int i)
         {
-            return (CellData)GetCellDataForIndices(GridMath.GetIndicesInSquare(i));
+            return GetCellDataForIndices(GridMath.GetIndicesInSquare(i));
         }
 
         internal CellData GetCellDataForColumn(int i)
         {
-            return (CellData)GetCellDataForIndices(GridMath.GetIndicesInColumn(i));
+            return GetCellDataForIndices(GridMath.GetIndicesInColumn(i));
         }
 
         internal CellData GetCellDataForRow(int i)
         {
-            return (CellData)GetCellDataForIndices(GridMath.GetIndicesInRow(i));
+            return GetCellDataForIndices(GridMath.GetIndicesInRow(i));
         }
 
-        private Dictionary<int, List<int>> GetCellDataForIndices(List<int> indices)
+        private CellData GetCellDataForIndices(List<int> indices)
         {
-            Dictionary<int, List<int>> result = new Dictionary<int, List<int>>();
+            CellData result = new CellData();
             foreach (int index in indices)
             {
                 result.Add(index, cellData[index]);
