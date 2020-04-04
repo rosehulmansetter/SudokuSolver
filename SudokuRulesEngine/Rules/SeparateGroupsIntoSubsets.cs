@@ -69,7 +69,7 @@ namespace SudokuRulesEngine.Rules
 
         private bool SolveForCells(int groupSize, ref Board board, Dictionary<int, List<int>> cellData)
         {
-            List<int> unsolvedValues = 
+            return false;
         }
     }
 }

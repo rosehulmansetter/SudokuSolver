@@ -29,15 +29,7 @@ namespace SudokuRulesEngine
 
         internal bool RemoveValueFromCell(int index, int value)
         {
-            bool actionTaken = false;
-
-            if (cellData[index].Contains(value))
-            {
-                cellData[index].Remove(value);
-                actionTaken = true;
-            }
-
-            return actionTaken;
+            return cellData[index].Remove(value);
         }
 
         internal bool IsSolved()
@@ -47,17 +39,17 @@ namespace SudokuRulesEngine
 
         internal CellData GetCellDataForSquare(int i)
         {
-            return new CellData(GetCellDataForIndices(GridMath.GetIndicesInSquare(i)));
+            return (CellData)GetCellDataForIndices(GridMath.GetIndicesInSquare(i));
         }
 
         internal CellData GetCellDataForColumn(int i)
         {
-            return new CellData(GetCellDataForIndices(GridMath.GetIndicesInColumn(i)));
+            return (CellData)GetCellDataForIndices(GridMath.GetIndicesInColumn(i));
         }
 
         internal CellData GetCellDataForRow(int i)
         {
-            return new CellData(GetCellDataForIndices(GridMath.GetIndicesInRow(i)));
+            return (CellData)GetCellDataForIndices(GridMath.GetIndicesInRow(i));
         }
 
         private Dictionary<int, List<int>> GetCellDataForIndices(List<int> indices)
