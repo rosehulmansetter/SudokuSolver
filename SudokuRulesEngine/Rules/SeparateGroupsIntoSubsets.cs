@@ -1,11 +1,10 @@
 ﻿using SudokuRulesEngine.ExtensionMethods;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace SudokuRulesEngine.Rules
 {
-    class SeparateGroupsIntoSubsets : Rule
+    public class SeparateGroupsIntoSubsets : Rule
     {
         public bool ApplyRule(ref Board board)
         {
@@ -76,7 +75,7 @@ namespace SudokuRulesEngine.Rules
             var unsolvedValues = cellData.GetUnsolvedValues();
             var unsolvedCells = cellData.GetUnsolvedCells();
 
-            if(groupSize >= unsolvedCells.Count)
+            if (groupSize >= unsolvedCells.Count)
             {
                 return false;
             }
@@ -86,6 +85,7 @@ namespace SudokuRulesEngine.Rules
             while(valueSetGenerator.MoveNext())
             {
                 List<int> setOfValues = valueSetGenerator.Current;
+
                 HashSet<KeyValuePair<int, List<int>>> cellsWithValues = new HashSet<KeyValuePair<int, List<int>>>();
 
                 foreach(int value in setOfValues)
@@ -93,17 +93,15 @@ namespace SudokuRulesEngine.Rules
                     cellsWithValues.AddRange(unsolvedCells.Where(kv => kv.Value.Contains(value)).ToList());
                 }
 
-                if(cellsWithValues.Count == groupSize)
+                if (cellsWithValues.Count == groupSize)
                 {
-                    List<int> otherValues = unsolvedValues.SubtractRange(setOfValues);
-
                     foreach(KeyValuePair<int, List<int>> cell in cellsWithValues)
                     {
-                        foreach(int otherValue in otherValues)
+                        foreach(int value in unsolvedValues)
                         {
-                            if(cell.Value.Contains(otherValue))
+                            if(!setOfValues.Contains(value) && cell.Value.Contains(value))
                             {
-                                board.RemoveValueFromCell(cell.Key, otherValue);
+                                board.RemoveValueFromCell(cell.Key, value);
                                 ruleSucceeded = true;
                             }
                         }

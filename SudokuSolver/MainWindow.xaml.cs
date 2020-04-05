@@ -31,6 +31,7 @@ namespace SudokuSolver
             rulesEngine.AddRule(new ClearOptionsFromSolvedCells());
             rulesEngine.AddRule(new SolveForUniqueValuesInARowColumnOrSquare());
             rulesEngine.AddRule(new CheckForLinearValuesInSquares());
+            rulesEngine.AddRule(new SeparateGroupsIntoSubsets());
             rulesEngine.BoardChanged += HandleBoardChanged;
             rulesEngine.SolutionComplete += HandleSolutionComplete;
         }

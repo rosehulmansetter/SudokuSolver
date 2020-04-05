@@ -8,6 +8,23 @@ namespace Tests
     public class SubsetIteratorTests
     {
         [Test]
+        public void TestSubsetIteratorThatCrashed()
+        {
+            SubsetIterator<int> it = new SubsetIterator<int>(2, new List<int> { 1, 4, 7 });
+
+            Assert.IsTrue(it.MoveNext());
+            AssertListEquality(new List<int> { 1, 4 }, it.Current);
+
+            Assert.IsTrue(it.MoveNext());
+            AssertListEquality(new List<int> { 1, 7 }, it.Current);
+
+            Assert.IsTrue(it.MoveNext());
+            AssertListEquality(new List<int> { 4, 7 }, it.Current);
+
+            Assert.IsFalse(it.MoveNext());
+        }
+
+        [Test]
         public void TestSubsetIterator()
         {
             SubsetIterator<int> it = new SubsetIterator<int>(2, new List<int> { 1, 6, 7, 9 });

@@ -14,7 +14,7 @@ namespace SudokuRulesEngine
         {
             if(setSize > values.Count)
             {
-                throw Exception();
+                throw new Exception();
             }
             SetSize = setSize;
             PossibleValues = values;
@@ -27,11 +27,6 @@ namespace SudokuRulesEngine
             {
                 TrackingIndices.Add(i);
             }
-        }
-
-        private Exception Exception()
-        {
-            throw new NotImplementedException();
         }
 
         public bool MoveNext()
@@ -49,7 +44,6 @@ namespace SudokuRulesEngine
                 if (TrackingIndices[index] + 1 < nextIllegalIndex)
                 {
                     TrackingIndices[index] += 1;
-                    //move any later indices next to me
                     for(int j = 1; j < SetSize - index; j++)
                     {
                         TrackingIndices[index + j] = TrackingIndices[index] + j;
