@@ -1,5 +1,7 @@
-﻿using System;
+﻿using SudokuRulesEngine.ExtensionMethods;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace SudokuRulesEngine.Rules
 {
@@ -69,6 +71,8 @@ namespace SudokuRulesEngine.Rules
 
         private bool SolveForCells(int groupSize, ref Board board, CellData cellData)
         {
+            bool ruleSucceeded = false;
+
             var unsolvedValues = cellData.GetUnsolvedValues();
             var unsolvedCells = cellData.GetUnsolvedCells();
 
@@ -77,17 +81,68 @@ namespace SudokuRulesEngine.Rules
                 return false;
             }
 
+            var valueSetGenerator = new SubsetIterator<int>(groupSize, unsolvedValues);
 
-            //for each set of groupSize values
-            //- check cells to see if only groupSize cells contain these values
-            //- if values are contained within groupSize cells
-            //  - cells containing values should ONLY contain those values
-            
-            //for each set of groupSize cells
-            //- check values in cells to see if only groupSize values are contained in these cells
-            //- if values are contained within groupSize cells
-            //  - cells not in this group should NOT contain these values
-            return false;
+            while(valueSetGenerator.MoveNext())
+            {
+                List<int> setOfValues = valueSetGenerator.Current;
+                HashSet<KeyValuePair<int, List<int>>> cellsWithValues = new HashSet<KeyValuePair<int, List<int>>>();
+
+                foreach(int value in setOfValues)
+                {
+                    cellsWithValues.AddRange(unsolvedCells.Where(kv => kv.Value.Contains(value)).ToList());
+                }
+
+                if(cellsWithValues.Count == groupSize)
+                {
+                    List<int> otherValues = unsolvedValues.SubtractRange(setOfValues);
+
+                    foreach(KeyValuePair<int, List<int>> cell in cellsWithValues)
+                    {
+                        foreach(int otherValue in otherValues)
+                        {
+                            if(cell.Value.Contains(otherValue))
+                            {
+                                board.RemoveValueFromCell(cell.Key, otherValue);
+                                ruleSucceeded = true;
+                            }
+                        }
+                    }
+                }
+            }
+
+            var cellSetGenerator = new SubsetIterator<KeyValuePair<int, List<int>>>(groupSize, unsolvedCells.ToList());
+
+            while(cellSetGenerator.MoveNext())
+            {
+                List<KeyValuePair<int, List<int>>> setOfCells = cellSetGenerator.Current;
+                HashSet<int> valuesInCells = new HashSet<int>();
+
+                foreach(KeyValuePair<int, List<int>> cell in setOfCells)
+                {
+                    valuesInCells.AddRange(cell.Value);
+                }
+
+                if(valuesInCells.Count == groupSize)
+                {
+                    foreach(KeyValuePair<int, List<int>> cell in unsolvedCells)
+                    {
+                        if (!setOfCells.Select(c => c.Key).Contains(cell.Key))
+                        {
+                            foreach(int valueInCell in valuesInCells)
+                            {
+                                if(cell.Value.Contains(valueInCell))
+                                {
+                                    board.RemoveValueFromCell(cell.Key, valueInCell);
+                                    ruleSucceeded = true;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            return ruleSucceeded;
         }
     }
 }
