@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace SudokuRulesEngine
@@ -12,6 +11,17 @@ namespace SudokuRulesEngine
         {
             cellData = new List<List<int>>();
             InitializeBoardValues();
+        }
+
+        public Board(Board other)
+        {
+            cellData = new List<List<int>>();
+            foreach(List<int> possibleValues in other.cellData)
+            {
+                var newValues = new List<int>();
+                newValues.AddRange(possibleValues);
+                cellData.Add(newValues);
+            }
         }
 
         private void InitializeBoardValues()

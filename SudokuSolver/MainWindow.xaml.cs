@@ -32,7 +32,6 @@ namespace SudokuSolver
             rulesEngine.AddRule(new SolveForUniqueValuesInARowColumnOrSquare());
             rulesEngine.AddRule(new CheckForLinearValuesInSquares());
             rulesEngine.AddRule(new SeparateGroupsIntoSubsets());
-            rulesEngine.BoardChanged += HandleBoardChanged;
             rulesEngine.SolutionComplete += HandleSolutionComplete;
         }
 
@@ -144,16 +143,18 @@ namespace SudokuSolver
             ResetButton.IsEnabled = true;
         }
 
-        void HandleBoardChanged(object sender, EventArgs boardArgs)
-        {
-            Board board = ((BoardEventArgs)boardArgs).BoardData;
-            cellGrid.UpdateBoard(board.GetCellData());
-        }
-
         void HandleSolutionComplete(object sender, EventArgs args)
         {
+            BoardEventArgs boardArgs = (BoardEventArgs)args;
+            cellGrid.UpdateBoard(boardArgs.BoardData.GetCellData());
             EditButton.IsEnabled = true;
             ResetButton.IsEnabled = true;
+
+            int numberOfSolutions = boardArgs.TotalSolutions;
+            if(numberOfSolutions != 1)
+            {
+                MessageBox.Show($"Puzzle has {numberOfSolutions} solutions.");
+            }
         }
     }
 
