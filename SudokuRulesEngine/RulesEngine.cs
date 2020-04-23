@@ -23,13 +23,14 @@ namespace SudokuRulesEngine
         {
             Board board = InitializeBoard(solvedCells);
 
-            int numberOfSolutions = SolveInternal(ref board);
+            List<Board> solutions = SolveInternal(ref board);
 
-            OnSolutionComplete(new BoardEventArgs { BoardData = board, TotalSolutions = numberOfSolutions });
+            OnSolutionComplete(new BoardEventArgs { Boards = solutions });
         }
 
-        private int SolveInternal(ref Board board)
+        private List<Board> SolveInternal(ref Board board)
         {
+            List<Board> solutions = new List<Board>();
             bool rulesFoundNewInfo = false;
 
             do
@@ -46,11 +47,11 @@ namespace SudokuRulesEngine
 
             if (board.IsSolved())
             {
-                return 1;
+                solutions.Add(board);
+                return solutions;
             }
             else if (board.GetCellData().All(c => c.Count > 0))
             {
-                int numberOfSolutions = 0;
                 List<List<int>> boardData = board.GetCellData();
                 int firstUnsolvedCellIndex = 0;
                 while (boardData[firstUnsolvedCellIndex].Count == 1)
@@ -64,19 +65,14 @@ namespace SudokuRulesEngine
                 {
                     Board newBoard = new Board(board);
                     newBoard.SetCell(firstUnsolvedCellIndex, value);
-                    int solutions = SolveInternal(ref newBoard);
-                    if(solutions == 1)
-                    {
-                        board = new Board(newBoard);
-                    }
-                    numberOfSolutions += solutions;
+                    solutions.AddRange(SolveInternal(ref newBoard));
                 }
 
-                return numberOfSolutions;
+                return solutions;
             }
             else
             {
-                return 0;
+                return new List<Board>();
             }
         }
 

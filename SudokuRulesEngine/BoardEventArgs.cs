@@ -1,10 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace SudokuRulesEngine
 {
     public class BoardEventArgs : EventArgs
     {
-        public Board BoardData { get; set; }
-        public int TotalSolutions { get; set; }
+        public List<Board> Boards { get; set; }
     }
 }

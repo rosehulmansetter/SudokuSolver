@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -14,6 +16,8 @@ namespace SudokuSolver
         private CellGrid cellGrid;
         private RulesEngine rulesEngine;
         GameMode Mode;
+        private int SolutionIndexShown = 1;
+        List<Board> Solutions;
 
         public MainWindow()
         {
@@ -21,6 +25,7 @@ namespace SudokuSolver
             cellGrid = new CellGrid();
             InitializeRulesEngine();
             Mode = GameMode.Edit;
+            Solutions = new List<Board>();
             SetUpSquares();
             SetButtonsToEditMode();
         }
@@ -121,6 +126,7 @@ namespace SudokuSolver
 
         private void EditPuzzle(object sender, RoutedEventArgs e)
         {
+            MultipleSolutionsGrid.Visibility = Visibility.Hidden;
             Mode = GameMode.Edit;
             SetButtonsToEditMode();
             cellGrid.SetHintsVisible(false);
@@ -129,6 +135,7 @@ namespace SudokuSolver
 
         private void ResetPuzzle(object sender, RoutedEventArgs e)
         {
+            MultipleSolutionsGrid.Visibility = Visibility.Hidden;
             Mode = GameMode.Edit;
             SetButtonsToEditMode();
             cellGrid.SetHintsVisible(false);
@@ -146,15 +153,39 @@ namespace SudokuSolver
         void HandleSolutionComplete(object sender, EventArgs args)
         {
             BoardEventArgs boardArgs = (BoardEventArgs)args;
-            cellGrid.UpdateBoard(boardArgs.BoardData.GetCellData());
+            Solutions = boardArgs.Boards;
+            SolutionIndexShown = 0;
+            ShowCurrentSolution();
+
+            if (Solutions.Count == 1)
+            {
+                MultipleSolutionsGrid.Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                MultipleSolutionsGrid.Visibility = Visibility.Visible;
+                MessageBox.Show($"Puzzle has {Solutions.Count} solutions.");
+            }
             EditButton.IsEnabled = true;
             ResetButton.IsEnabled = true;
+        }
 
-            int numberOfSolutions = boardArgs.TotalSolutions;
-            if(numberOfSolutions != 1)
-            {
-                MessageBox.Show($"Puzzle has {numberOfSolutions} solutions.");
-            }
+        private void ShowPreviousSolution(object sender, RoutedEventArgs e)
+        {
+            SolutionIndexShown = --SolutionIndexShown % Solutions.Count;
+            ShowCurrentSolution();
+        }
+
+        private void ShowNextSolution(object sender, RoutedEventArgs e)
+        {
+            SolutionIndexShown = ++SolutionIndexShown % Solutions.Count;
+            ShowCurrentSolution();
+        }
+
+        private void ShowCurrentSolution()
+        {
+            cellGrid.UpdateBoard(Solutions[SolutionIndexShown].GetCellData());
+            MultipleSolutionText.Text = $"{SolutionIndexShown + 1} of {Solutions.Count}";
         }
     }
 
