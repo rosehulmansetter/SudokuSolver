@@ -165,6 +165,7 @@
                 <ColumnDefinition />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
+            <Button Name="CancelButton" Background="Red" Click="CancelSolution" Height="30" Width="100" Margin="0 30 0 0" Focusable="False" Grid.Column="0" Grid.Row="0">Cancel</Button>
             <Button Name="SolveButton" Background="LightGreen" Click="SolvePuzzle" Height="30" Width="100" Margin="0 30 0 0" Focusable="False" Grid.Column="0" Grid.Row="0">Solve</Button>
             <Button Name="EditButton" Background="Yellow" Click="EditPuzzle" Height="30" Width="100" Margin="0 30 0 0" Focusable="False" Grid.Column="1" Grid.Row="0">Edit</Button>
             <Button Name="ResetButton" Background="LightGray" Click="ResetPuzzle" Height="30" Width="100" Margin="0 30 0 0" Focusable="False" Grid.Column="2" Grid.Row="0">Reset</Button>

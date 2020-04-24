@@ -6,12 +6,18 @@ namespace SudokuRulesEngine
 {
     public class RulesEngine
     {
+        private static bool Cancelled;
         private List<Rule> rules;
         public event EventHandler SolutionComplete;
 
         public RulesEngine()
         {
             rules = new List<Rule>();
+        }
+
+        public void Cancel()
+        {
+            Cancelled = true;
         }
 
         public void AddRule(Rule rule)
@@ -21,15 +27,24 @@ namespace SudokuRulesEngine
 
         public void Solve(Dictionary<int, int> solvedCells)
         {
+            Cancelled = false;
             Board board = InitializeBoard(solvedCells);
 
             List<Board> solutions = SolveInternal(ref board);
 
-            OnSolutionComplete(new BoardEventArgs { Boards = solutions });
+            if (!Cancelled)
+            {
+                OnSolutionComplete(new BoardEventArgs { Boards = solutions });
+            }
         }
 
         private List<Board> SolveInternal(ref Board board)
         {
+            if(Cancelled)
+            {
+                return new List<Board>();
+            }
+
             List<Board> solutions = new List<Board>();
             bool rulesFoundNewInfo = false;
 

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -18,16 +17,18 @@ namespace SudokuSolver
         GameMode Mode;
         private int SolutionIndexShown = 1;
         List<Board> Solutions;
+        List<ButtonStateManager> Buttons;
 
         public MainWindow()
         {
             InitializeComponent();
             cellGrid = new CellGrid();
-            InitializeRulesEngine();
-            Mode = GameMode.Edit;
             Solutions = new List<Board>();
+            Mode = GameMode.Edit;
+            InitializeRulesEngine();
             SetUpSquares();
-            SetButtonsToEditMode();
+            InitializeButtonStates();
+            SetToGameMode(GameMode.Edit);
         }
 
         private void InitializeRulesEngine()
@@ -51,6 +52,39 @@ namespace SudokuSolver
             SetUpSquare(2, 0, BottomLeftGrid);
             SetUpSquare(2, 1, BottomMiddleGrid);
             SetUpSquare(2, 2, BottomRightGrid);
+        }
+
+        private void InitializeButtonStates()
+        {
+            Buttons = new List<ButtonStateManager>();
+
+            ButtonStateManager solveButtonManager = new ButtonStateManager(SolveButton);
+            solveButtonManager.SetVisibleStates(GameMode.Edit, GameMode.Solved);
+            solveButtonManager.SetEnabledStates(GameMode.Edit);
+            Buttons.Add(solveButtonManager);
+
+            ButtonStateManager editButtonManager = new ButtonStateManager(EditButton);
+            editButtonManager.SetVisibleStates(GameMode.Edit, GameMode.Solving, GameMode.Solved);
+            editButtonManager.SetEnabledStates(GameMode.Solved);
+            Buttons.Add(editButtonManager);
+
+            ButtonStateManager resetButtonManager = new ButtonStateManager(ResetButton);
+            resetButtonManager.SetVisibleStates(GameMode.Edit, GameMode.Solving, GameMode.Solved);
+            resetButtonManager.SetEnabledStates(GameMode.Solved, GameMode.Edit);
+            Buttons.Add(resetButtonManager);
+
+            ButtonStateManager cancelButtonManager = new ButtonStateManager(CancelButton);
+            cancelButtonManager.SetVisibleStates(GameMode.Solving);
+            cancelButtonManager.SetEnabledStates(GameMode.Solving);
+            Buttons.Add(cancelButtonManager);
+        }
+
+        private void SetToGameMode(GameMode mode)
+        {
+            foreach(ButtonStateManager button in Buttons)
+            {
+                button.HandleNewGameMode(mode);
+            }
         }
 
         private void SetUpSquare(int gridRowIndex, int gridColumnIndex, Grid grid)
@@ -115,10 +149,7 @@ namespace SudokuSolver
 
         private void SolvePuzzle(object sender, RoutedEventArgs e)
         {
-            Mode = GameMode.Solving;
-            SolveButton.IsEnabled = false;
-            EditButton.IsEnabled = false;
-            ResetButton.IsEnabled = false;
+            SetToGameMode(GameMode.Solving);
             cellGrid.UnselectSelectedCell();
             cellGrid.SetHintsVisible(true);
             rulesEngine.Solve(cellGrid.GetSolvedCellData());
@@ -127,8 +158,7 @@ namespace SudokuSolver
         private void EditPuzzle(object sender, RoutedEventArgs e)
         {
             MultipleSolutionsGrid.Visibility = Visibility.Hidden;
-            Mode = GameMode.Edit;
-            SetButtonsToEditMode();
+            SetToGameMode(GameMode.Edit);
             cellGrid.SetHintsVisible(false);
             cellGrid.ResetSelectedCell();
         }
@@ -136,18 +166,16 @@ namespace SudokuSolver
         private void ResetPuzzle(object sender, RoutedEventArgs e)
         {
             MultipleSolutionsGrid.Visibility = Visibility.Hidden;
-            Mode = GameMode.Edit;
-            SetButtonsToEditMode();
+            SetToGameMode(GameMode.Edit);
             cellGrid.SetHintsVisible(false);
             cellGrid.ResetSelectedCell();
             cellGrid.ClearAllCellValues();
         }
 
-        private void SetButtonsToEditMode()
+        private void CancelSolution(object sender, RoutedEventArgs e)
         {
-            SolveButton.IsEnabled = true;
-            EditButton.IsEnabled = false;
-            ResetButton.IsEnabled = true;
+            rulesEngine.Cancel();
+            SetToGameMode(GameMode.Edit);
         }
 
         void HandleSolutionComplete(object sender, EventArgs args)
@@ -166,8 +194,7 @@ namespace SudokuSolver
                 MultipleSolutionsGrid.Visibility = Visibility.Visible;
                 MessageBox.Show($"Puzzle has {Solutions.Count} solutions.");
             }
-            EditButton.IsEnabled = true;
-            ResetButton.IsEnabled = true;
+            SetToGameMode(GameMode.Solved);
         }
 
         private void ShowPreviousSolution(object sender, RoutedEventArgs e)
@@ -192,6 +219,7 @@ namespace SudokuSolver
     public enum GameMode
     {
         Edit,
+        Solved,
         Solving
     }
 }
