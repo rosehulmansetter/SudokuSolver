@@ -6,6 +6,8 @@ namespace SudokuRulesEngine
 {
     public static class GridMath
     {
+        public const int TotalNumberOfCells = 81;
+
         public static List<int> AllPossibleValues()
         {
             return new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
@@ -115,6 +117,16 @@ namespace SudokuRulesEngine
                 }
             }
             return indicesInSameSquare;
+        }
+
+        public static int Mod(this int num, int modNum)
+        {
+            if(num < 0)
+            {
+                return (num + 7).Mod(modNum);
+            }
+
+            return num % modNum;
         }
     }
 }

@@ -5,7 +5,6 @@ namespace SudokuSolver
 {
     public class CellGrid
     {
-        private const int TOTAL_NUMBER_OF_CELLS = 81;
         private List<Cell> cells;
         private int selectedCell;
 
@@ -18,7 +17,7 @@ namespace SudokuSolver
 
         private void GenerateCells()
         {
-            for (int i = 0; i < TOTAL_NUMBER_OF_CELLS; i++)
+            for (int i = 0; i < GridMath.TotalNumberOfCells; i++)
             {
                 Cell c = new Cell();
                 cells.Add(c);
@@ -38,7 +37,7 @@ namespace SudokuSolver
         public void EnterNumber(int numberPressed)
         {
             cells[selectedCell].Set(numberPressed);
-            if(selectedCell + 1 < TOTAL_NUMBER_OF_CELLS)
+            if(selectedCell + 1 < GridMath.TotalNumberOfCells)
             {
                 SetSelectedIndex(selectedCell + 1);
             }
@@ -86,7 +85,7 @@ namespace SudokuSolver
         public void MoveToNext()
         {
             int newSelectedIndex = selectedCell + 1;
-            if(selectedCell == TOTAL_NUMBER_OF_CELLS)
+            if(selectedCell == GridMath.TotalNumberOfCells)
             {
                 newSelectedIndex = 0;
             }
@@ -126,7 +125,7 @@ namespace SudokuSolver
         public Dictionary<int, int> GetSolvedCellData()
         {
             Dictionary<int, int> solvedCells = new Dictionary<int, int>();
-            for(int i = 0; i < TOTAL_NUMBER_OF_CELLS; i++)
+            for(int i = 0; i < GridMath.TotalNumberOfCells; i++)
             {
                 Cell cell = cells[i];
                 if(cell.PossibleNumbers.Count == 1)

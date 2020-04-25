@@ -159,6 +159,11 @@ namespace SudokuSolver
         {
             BoardEventArgs boardArgs = (BoardEventArgs)args;
             Solutions = boardArgs.Boards;
+            SetUpBoardForSolutions();
+        }
+
+        private void SetUpBoardForSolutions()
+        {
             SolutionIndexShown = 0;
             ShowCurrentSolution();
 
@@ -171,18 +176,19 @@ namespace SudokuSolver
                 MultipleSolutionsGrid.Visibility = Visibility.Visible;
                 MessageBox.Show($"Puzzle has {Solutions.Count} solutions.");
             }
+
             Buttons.GoToGameMode(GameMode.Solved);
         }
 
         private void ShowPreviousSolution(object sender, RoutedEventArgs e)
         {
-            SolutionIndexShown = --SolutionIndexShown % Solutions.Count;
+            SolutionIndexShown = (--SolutionIndexShown).Mod(Solutions.Count);
             ShowCurrentSolution();
         }
 
         private void ShowNextSolution(object sender, RoutedEventArgs e)
         {
-            SolutionIndexShown = ++SolutionIndexShown % Solutions.Count;
+            SolutionIndexShown = (++SolutionIndexShown).Mod(Solutions.Count);
             ShowCurrentSolution();
         }
 
@@ -191,5 +197,7 @@ namespace SudokuSolver
             cellGrid.UpdateBoard(Solutions[SolutionIndexShown].GetCellData());
             MultipleSolutionText.Text = $"{SolutionIndexShown + 1} of {Solutions.Count}";
         }
+
+
     }
 }
