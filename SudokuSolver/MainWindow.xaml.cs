@@ -17,7 +17,7 @@ namespace SudokuSolver
         GameMode Mode;
         private int SolutionIndexShown = 1;
         List<Board> Solutions;
-        List<ButtonStateManager> Buttons;
+        ButtonStateManager Buttons;
 
         public MainWindow()
         {
@@ -28,7 +28,7 @@ namespace SudokuSolver
             InitializeRulesEngine();
             SetUpSquares();
             InitializeButtonStates();
-            SetToGameMode(GameMode.Edit);
+            Buttons.GoToGameMode(GameMode.Edit);
         }
 
         private void InitializeRulesEngine()
@@ -56,35 +56,12 @@ namespace SudokuSolver
 
         private void InitializeButtonStates()
         {
-            Buttons = new List<ButtonStateManager>();
+            Buttons = new ButtonStateManager();
 
-            ButtonStateManager solveButtonManager = new ButtonStateManager(SolveButton);
-            solveButtonManager.SetVisibleStates(GameMode.Edit, GameMode.Solved);
-            solveButtonManager.SetEnabledStates(GameMode.Edit);
-            Buttons.Add(solveButtonManager);
-
-            ButtonStateManager editButtonManager = new ButtonStateManager(EditButton);
-            editButtonManager.SetVisibleStates(GameMode.Edit, GameMode.Solving, GameMode.Solved);
-            editButtonManager.SetEnabledStates(GameMode.Solved);
-            Buttons.Add(editButtonManager);
-
-            ButtonStateManager resetButtonManager = new ButtonStateManager(ResetButton);
-            resetButtonManager.SetVisibleStates(GameMode.Edit, GameMode.Solving, GameMode.Solved);
-            resetButtonManager.SetEnabledStates(GameMode.Solved, GameMode.Edit);
-            Buttons.Add(resetButtonManager);
-
-            ButtonStateManager cancelButtonManager = new ButtonStateManager(CancelButton);
-            cancelButtonManager.SetVisibleStates(GameMode.Solving);
-            cancelButtonManager.SetEnabledStates(GameMode.Solving);
-            Buttons.Add(cancelButtonManager);
-        }
-
-        private void SetToGameMode(GameMode mode)
-        {
-            foreach(ButtonStateManager button in Buttons)
-            {
-                button.HandleNewGameMode(mode);
-            }
+            Buttons.AddButton(SolveButton, ButtonStateManager.EditAndSolved, ButtonStateManager.Edit);
+            Buttons.AddButton(EditButton, ButtonStateManager.All, ButtonStateManager.Solved);
+            Buttons.AddButton(ResetButton, ButtonStateManager.All, ButtonStateManager.EditAndSolved);
+            Buttons.AddButton(CancelButton, ButtonStateManager.Solving, ButtonStateManager.Solving);
         }
 
         private void SetUpSquare(int gridRowIndex, int gridColumnIndex, Grid grid)
@@ -149,7 +126,7 @@ namespace SudokuSolver
 
         private void SolvePuzzle(object sender, RoutedEventArgs e)
         {
-            SetToGameMode(GameMode.Solving);
+            Buttons.GoToGameMode(GameMode.Solving);
             cellGrid.UnselectSelectedCell();
             cellGrid.SetHintsVisible(true);
             rulesEngine.Solve(cellGrid.GetSolvedCellData());
@@ -158,7 +135,7 @@ namespace SudokuSolver
         private void EditPuzzle(object sender, RoutedEventArgs e)
         {
             MultipleSolutionsGrid.Visibility = Visibility.Hidden;
-            SetToGameMode(GameMode.Edit);
+            Buttons.GoToGameMode(GameMode.Edit);
             cellGrid.SetHintsVisible(false);
             cellGrid.ResetSelectedCell();
         }
@@ -166,7 +143,7 @@ namespace SudokuSolver
         private void ResetPuzzle(object sender, RoutedEventArgs e)
         {
             MultipleSolutionsGrid.Visibility = Visibility.Hidden;
-            SetToGameMode(GameMode.Edit);
+            Buttons.GoToGameMode(GameMode.Edit);
             cellGrid.SetHintsVisible(false);
             cellGrid.ResetSelectedCell();
             cellGrid.ClearAllCellValues();
@@ -175,7 +152,7 @@ namespace SudokuSolver
         private void CancelSolution(object sender, RoutedEventArgs e)
         {
             rulesEngine.Cancel();
-            SetToGameMode(GameMode.Edit);
+            Buttons.GoToGameMode(GameMode.Edit);
         }
 
         void HandleSolutionComplete(object sender, EventArgs args)
@@ -194,7 +171,7 @@ namespace SudokuSolver
                 MultipleSolutionsGrid.Visibility = Visibility.Visible;
                 MessageBox.Show($"Puzzle has {Solutions.Count} solutions.");
             }
-            SetToGameMode(GameMode.Solved);
+            Buttons.GoToGameMode(GameMode.Solved);
         }
 
         private void ShowPreviousSolution(object sender, RoutedEventArgs e)
@@ -214,12 +191,5 @@ namespace SudokuSolver
             cellGrid.UpdateBoard(Solutions[SolutionIndexShown].GetCellData());
             MultipleSolutionText.Text = $"{SolutionIndexShown + 1} of {Solutions.Count}";
         }
-    }
-
-    public enum GameMode
-    {
-        Edit,
-        Solved,
-        Solving
     }
 }
