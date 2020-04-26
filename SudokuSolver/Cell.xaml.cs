@@ -1,6 +1,4 @@
 ﻿using SudokuRulesEngine;
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -15,9 +13,8 @@ namespace SudokuSolver
         public Cell()
         {
             InitializeComponent();
-            SetInitialPotentialValues();
             showHints = false;
-            UpdateUI();
+            SetInitialPotentialValues();
         }
 
         private void SetInitialPotentialValues()
@@ -41,7 +38,6 @@ namespace SudokuSolver
         public void Set(int number)
         {
             possibleNumbers = new List<int>() { number };
-            UpdateUI();
         }
 
         private void UpdateUI()
@@ -121,7 +117,6 @@ namespace SudokuSolver
         internal void Unset()
         {
             SetInitialPotentialValues();
-            UpdateUI();
         }
 
         public void SetAsSelected()
