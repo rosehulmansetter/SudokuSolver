@@ -2,10 +2,10 @@
 using SudokuRulesEngine;
 using System.Collections.Generic;
 
-namespace Tests
+namespace SudokuRulesEngineTests
 {
     [TestFixture]
-    public class SubsetIteratorTests
+    public class SubsetIteratorsTests
     {
         [Test]
         public void TestSubsetIteratorThatCrashed()

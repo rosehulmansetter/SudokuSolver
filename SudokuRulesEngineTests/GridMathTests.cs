@@ -3,7 +3,7 @@ using NUnit.Framework;
 using SudokuRulesEngine;
 using System.Collections.Generic;
 
-namespace Tests
+namespace SudokuRulesEngineTests
 {
     [TestFixture]
     public class GridMathTests
