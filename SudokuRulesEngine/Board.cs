@@ -32,24 +32,24 @@ namespace SudokuRulesEngine
             }
         }
 
-        internal void SetCell(int index, int value)
+        public void SetCell(int index, int value)
         {
             cellData[index] = new List<int> { value };
         }
 
-        internal bool RemoveValueFromCell(int index, int value)
+        public bool RemoveValueFromCell(int index, int value)
         {
             return cellData[index].Remove(value);
         }
 
-        internal bool IsSolved()
+        public bool IsSolved()
         {
             return cellData.All(c => c.Count == 1);
         }
 
-        public CellData GetCellDataForSquare(int i)
+        public CellData GetCellDataForRow(int i)
         {
-            return GetCellDataForIndices(GridMath.GetIndicesInSquare(i));
+            return GetCellDataForIndices(GridMath.GetIndicesInRow(i));
         }
 
         public CellData GetCellDataForColumn(int i)
@@ -57,9 +57,9 @@ namespace SudokuRulesEngine
             return GetCellDataForIndices(GridMath.GetIndicesInColumn(i));
         }
 
-        public CellData GetCellDataForRow(int i)
+        public CellData GetCellDataForSquare(int i)
         {
-            return GetCellDataForIndices(GridMath.GetIndicesInRow(i));
+            return GetCellDataForIndices(GridMath.GetIndicesInSquare(i));
         }
 
         private CellData GetCellDataForIndices(List<int> indices)
