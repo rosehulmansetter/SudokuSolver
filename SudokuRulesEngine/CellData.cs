@@ -25,7 +25,7 @@ namespace SudokuRulesEngine
             return this.Where(kv => kv.Value.Count > 1).ToDictionary(kv => kv.Key, kv => kv.Value);
         }
 
-        internal List<int> GetCellIndicesWithValue(int unsolvedValue)
+        public List<int> GetCellIndicesWithValue(int unsolvedValue)
         {
             return Keys.Where(k => this[k].Contains(unsolvedValue)).ToList<int>();
         }
