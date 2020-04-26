@@ -15,11 +15,11 @@ namespace SudokuRulesEngine.Rules
                 var currentCellValues = cells[i];
                 if(currentCellValues.Count == 1)
                 {
-                    HashSet<int> relatedCellIndices = GridMath.GetRelatedCellIndices(i);
-                    IEnumerator<int> enumerator = relatedCellIndices.GetEnumerator();
-                    while (enumerator.MoveNext())
+                    List<int> relatedCellIndices = GridMath.GetRelatedCellIndices(i);
+
+                    foreach(int relatedCellIndex in relatedCellIndices)
                     {
-                        bool removalSuccessful = board.RemoveValueFromCell(enumerator.Current, currentCellValues.First());
+                        bool removalSuccessful = board.RemoveValueFromCell(relatedCellIndex, currentCellValues.First());
                         ruleSuccess |= removalSuccessful;
                     }
                 }
