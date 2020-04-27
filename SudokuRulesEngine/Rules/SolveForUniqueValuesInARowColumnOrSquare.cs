@@ -18,7 +18,7 @@ namespace SudokuRulesEngine.Rules
         {
             bool ruleSucceeded = false;
 
-            for (int i = 0; i < 9; i++)
+            for (int i = 0; i < GridMath.CellsInRow; i++)
             {
                 bool ruleSucceededForCells = SolveUniquePossibilitiesInCells(ref board, board.GetCellDataForRow(i));
                 ruleSucceeded |= ruleSucceededForCells;
@@ -30,7 +30,7 @@ namespace SudokuRulesEngine.Rules
         {
             bool ruleSucceeded = false;
 
-            for (int i = 0; i < 9; i++)
+            for (int i = 0; i < GridMath.CellsInColumn; i++)
             {
                 bool ruleSucceededForCells = SolveUniquePossibilitiesInCells(ref board, board.GetCellDataForColumn(i));
                 ruleSucceeded |= ruleSucceededForCells;
@@ -42,7 +42,7 @@ namespace SudokuRulesEngine.Rules
         {
             bool ruleSucceeded = false;
 
-            for (int i = 0; i < 9; i++)
+            for (int i = 0; i < GridMath.CellsInSquare; i++)
             {
                 bool ruleSucceededForCells = SolveUniquePossibilitiesInCells(ref board, board.GetCellDataForSquare(i));
                 ruleSucceeded |= ruleSucceededForCells;
@@ -50,34 +50,19 @@ namespace SudokuRulesEngine.Rules
             return ruleSucceeded;
         }
 
-        private bool SolveUniquePossibilitiesInCells(ref Board board, Dictionary<int, List<int>> cellData)
+        private bool SolveUniquePossibilitiesInCells(ref Board board, CellData cellData)
         {
             bool ruleSucceeded = false;
-            Dictionary<int, List<int>> unsolvedCells = new Dictionary<int, List<int>>();
-            List<int> unsolvedValues = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-            foreach (int cellIndex in cellData.Keys)
-            {
-                if(cellData[cellIndex].Count == 1)
-                {
-                    unsolvedValues.Remove(cellData[cellIndex].First());
-                }
-                else
-                {
-                    unsolvedCells.Add(cellIndex, cellData[cellIndex]);
-                }
-            }
+            Dictionary<int, List<int>> unsolvedCells = cellData.GetUnsolvedCells();
+            List<int> unsolvedValues = cellData.GetUnsolvedValues();
+
             foreach (int unsolvedValue in unsolvedValues)
             {
                 if (unsolvedCells.Values.Count(cell => cell.Contains(unsolvedValue)) == 1)
                 {
-                    foreach (KeyValuePair<int, List<int>> cell in unsolvedCells)
-                    {
-                        if (cell.Value.Contains(unsolvedValue))
-                        {
-                            board.SetCell(cell.Key, unsolvedValue);
-                            ruleSucceeded = true;
-                        }
-                    }
+                    int index = unsolvedCells.First(cell => cell.Value.Contains(unsolvedValue)).Key;
+                    board.SetCell(index, unsolvedValue);
+                    ruleSucceeded = true;
                 }
             }
 
