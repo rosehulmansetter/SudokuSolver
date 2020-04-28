@@ -65,16 +65,15 @@ namespace SudokuRulesEngine
                 solutions.Add(board);
                 return solutions;
             }
-            else if (board.GetCellData().All(c => c.Count > 0))
+            else if (board.IsValid())
             {
-                List<List<int>> boardData = board.GetCellData();
                 int firstUnsolvedCellIndex = 0;
-                while (boardData[firstUnsolvedCellIndex].Count == 1)
+                while (board.GetPossibleValues(firstUnsolvedCellIndex).Count == 1)
                 {
                     firstUnsolvedCellIndex++;
                 }
 
-                List<int> possibleValues = boardData[firstUnsolvedCellIndex];
+                List<int> possibleValues = board.GetPossibleValues(firstUnsolvedCellIndex);
 
                 foreach (int value in possibleValues)
                 {

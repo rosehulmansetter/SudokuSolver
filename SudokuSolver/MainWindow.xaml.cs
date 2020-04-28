@@ -194,7 +194,12 @@ namespace SudokuSolver
 
         private void ShowCurrentSolution()
         {
-            cellGrid.UpdateBoard(Solutions[SolutionIndexShown].GetCellData());
+            Board board = Solutions[SolutionIndexShown];
+
+            for(int index = 0; index < GridMath.TotalNumberOfCells; index++)
+            {
+                cellGrid.UpdateCell(index, board.GetPossibleValues(index));
+            }
             MultipleSolutionText.Text = $"{SolutionIndexShown + 1} of {Solutions.Count}";
         }
 

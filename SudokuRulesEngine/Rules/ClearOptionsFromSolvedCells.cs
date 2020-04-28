@@ -9,10 +9,9 @@ namespace SudokuRulesEngine.Rules
         {
             bool ruleSuccess = false;
 
-            List<List<int>> cells = board.GetCellData();
-            for(int i = 0; i < cells.Count; i++)
+            for(int i = 0; i < GridMath.TotalNumberOfCells; i++)
             {
-                var currentCellValues = cells[i];
+                var currentCellValues = board.GetPossibleValues(i);
                 if(currentCellValues.Count == 1)
                 {
                     List<int> relatedCellIndices = GridMath.GetRelatedCellIndices(i);

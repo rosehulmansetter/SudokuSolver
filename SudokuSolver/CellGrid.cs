@@ -116,10 +116,7 @@ namespace SudokuSolver
 
         public void ClearAllCellValues()
         {
-            foreach(Cell c in cells)
-            {
-                c.Unset();
-            }
+            cells.ForEach(c => c.Unset());
         }
 
         public Dictionary<int, int> GetSolvedCellData()
@@ -130,19 +127,16 @@ namespace SudokuSolver
                 Cell cell = cells[i];
                 if(cell.PossibleNumbers.Count == 1)
                 {
-                    solvedCells.Add(i, (int)cell.PossibleNumbers[0]);
+                    solvedCells.Add(i, cell.PossibleNumbers[0]);
                 }
             }
 
             return solvedCells;
         }
 
-        public void UpdateBoard(List<List<int>> allPossibleCellValues)
+        public void UpdateCell(int index, List<int> possibleValues)
         {
-            for(int i = 0; i < allPossibleCellValues.Count; i++)
-            {
-                cells[i].PossibleNumbers = allPossibleCellValues[i];
-            }
+            cells[index].PossibleNumbers = possibleValues;
         }
     }
 }

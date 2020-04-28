@@ -29,22 +29,14 @@ namespace SudokuRulesEngineTests
 
             newBoard.Should().NotBe(board);
 
-            List<List<int>> boardData = board.GetCellData();
-            List<List<int>> newBoardData = newBoard.GetCellData();
-
             for(int index = 0; index < GridMath.TotalNumberOfCells; index++)
             {
-                boardData[index].Count.Should().Be(newBoardData[index].Count);
-
-                foreach(int value in boardData[index])
-                {
-                    newBoardData[index].Should().Contain(value);
-                }
+                board.GetPossibleValues(index).Should().Equal(newBoard.GetPossibleValues(index));
             }
 
             newBoard.SetCell(0, 2);
 
-            newBoard.GetCellData()[0].Should().NotEqual(board.GetCellData()[0]);
+            newBoard.GetPossibleValues(0).Should().NotEqual(board.GetPossibleValues(0));
         }
 
         [Test]
@@ -52,22 +44,18 @@ namespace SudokuRulesEngineTests
         {
             board.SetCell(7, 1);
 
-            var cellData = board.GetCellData();
-
-            cellData[7].Count.Should().Be(1);
-            cellData[7].First().Should().Be(1);
+            board.GetPossibleValues(7).Count.Should().Be(1);
+            board.GetPossibleValues(7).First().Should().Be(1);
 
             board.SetCell(7, 7);
 
-            cellData = board.GetCellData();
-
-            cellData[7].Count.Should().Be(1);
-            cellData[7].First().Should().Be(7);
+            board.GetPossibleValues(7).Count.Should().Be(1);
+            board.GetPossibleValues(7).First().Should().Be(7);
 
             board.SetCell(56, 3);
 
-            cellData[56].Count.Should().Be(1);
-            cellData[56].First().Should().Be(3);
+            board.GetPossibleValues(56).Count.Should().Be(1);
+            board.GetPossibleValues(56).First().Should().Be(3);
         }
 
         [Test]
@@ -75,13 +63,13 @@ namespace SudokuRulesEngineTests
         {
             int index = 70;
 
-            var possibleValues = board.GetCellData()[index];
+            var possibleValues = board.GetPossibleValues(index);
 
             possibleValues.Count.Should().Be(9);
 
             board.RemoveValueFromCell(index, 2);
 
-            possibleValues = board.GetCellData()[index];
+            possibleValues = board.GetPossibleValues(index);
 
             possibleValues.Count.Should().Be(8);
             possibleValues.Should().NotContain(2);
@@ -99,9 +87,21 @@ namespace SudokuRulesEngineTests
         }
 
         [Test]
+        public void TestIsValid()
+        {
+            board.IsValid().Should().BeTrue();
+
+            board.SetCell(7, 3);
+            board.IsValid().Should().BeTrue();
+
+            board.RemoveValueFromCell(7, 3);
+            board.IsValid().Should().BeFalse();
+        }
+
+        [Test]
         public void TestIsSolved()
         {
-            for(int i = 0; i < GridMath.TotalNumberOfCells; i++)
+            for (int i = 0; i < GridMath.TotalNumberOfCells; i++)
             {
                 board.IsSolved().Should().BeFalse();
                 board.SetCell(i, 1);
@@ -213,6 +213,23 @@ namespace SudokuRulesEngineTests
             cellData[76].Should().Contain(6);
 
             cellData[77].Count.Should().Be(9);
+        }
+
+        [Test]
+        public void TestGetPossibleValues()
+        {
+            board.RemoveValueFromCell(44, 1);
+            board.RemoveValueFromCell(44, 3);
+            board.RemoveValueFromCell(44, 7);
+            board.RemoveValueFromCell(11, 6);
+            board.SetCell(2, 4);
+            board.SetCell(76, 6);
+
+            board.GetPossibleValues(44).Should().Equal(new List<int> { 2, 4, 5, 6, 8, 9 });
+            board.GetPossibleValues(11).Should().Equal(new List<int> { 1, 2, 3, 4, 5, 7, 8, 9 });
+            board.GetPossibleValues(2).Should().Equal(new List<int> { 4 });
+            board.GetPossibleValues(76).Should().Equal(new List<int> { 6 });
+            board.GetPossibleValues(55).Should().Equal(new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 });
         }
     }
 }

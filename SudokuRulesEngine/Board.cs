@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace SudokuRulesEngine
@@ -32,6 +33,11 @@ namespace SudokuRulesEngine
             }
         }
 
+        public List<int> GetPossibleValues(int index)
+        {
+            return cellData[index];
+        }
+
         public void SetCell(int index, int value)
         {
             cellData[index] = new List<int> { value };
@@ -45,6 +51,11 @@ namespace SudokuRulesEngine
         public bool IsSolved()
         {
             return cellData.All(c => c.Count == 1);
+        }
+
+        public bool IsValid()
+        {
+            return cellData.All(c => c.Count > 0);
         }
 
         public CellData GetCellDataForRow(int i)
@@ -70,11 +81,6 @@ namespace SudokuRulesEngine
                 result.Add(index, cellData[index]);
             }
             return result;
-        }
-
-        public List<List<int>> GetCellData()
-        {
-            return cellData;
         }
     }
 }

@@ -44,8 +44,8 @@ namespace SudokuRulesEngineTests.Rules
 
             for(int index = 0; index < GridMath.TotalNumberOfCells; index++)
             {
-                List<int> expectedValues = oldBoard.GetCellData()[index];
-                List<int> actualValues = board.GetCellData()[index];
+                List<int> expectedValues = oldBoard.GetPossibleValues(index);
+                List<int> actualValues = board.GetPossibleValues(index);
                 expectedValues.Should().Equal(actualValues);
             }
         }
@@ -69,22 +69,20 @@ namespace SudokuRulesEngineTests.Rules
             board.RemoveValueFromCell(77, 8);
 
             Rule.ApplyRule(ref board).Should().BeTrue();
+            
+            board.GetPossibleValues(9).Should().NotContain(3);
+            board.GetPossibleValues(10).Should().NotContain(3);
+            board.GetPossibleValues(11).Should().NotContain(3);
+            board.GetPossibleValues(12).Should().NotContain(3);
+            board.GetPossibleValues(13).Should().NotContain(3);
+            board.GetPossibleValues(14).Should().NotContain(3);
 
-            List<List<int>> cellData = board.GetCellData();
-
-            cellData[9].Should().NotContain(3);
-            cellData[10].Should().NotContain(3);
-            cellData[11].Should().NotContain(3);
-            cellData[12].Should().NotContain(3);
-            cellData[13].Should().NotContain(3);
-            cellData[14].Should().NotContain(3);
-
-            cellData[54].Should().NotContain(8);
-            cellData[55].Should().NotContain(8);
-            cellData[56].Should().NotContain(8);
-            cellData[60].Should().NotContain(8);
-            cellData[61].Should().NotContain(8);
-            cellData[62].Should().NotContain(8);
+            board.GetPossibleValues(54).Should().NotContain(8);
+            board.GetPossibleValues(55).Should().NotContain(8);
+            board.GetPossibleValues(56).Should().NotContain(8);
+            board.GetPossibleValues(60).Should().NotContain(8);
+            board.GetPossibleValues(61).Should().NotContain(8);
+            board.GetPossibleValues(62).Should().NotContain(8);
         }
 
         [Test]
@@ -107,21 +105,19 @@ namespace SudokuRulesEngineTests.Rules
 
             Rule.ApplyRule(ref board).Should().BeTrue();
 
-            List<List<int>> cellData = board.GetCellData();
+            board.GetPossibleValues(2).Should().NotContain(4);
+            board.GetPossibleValues(11).Should().NotContain(4);
+            board.GetPossibleValues(20).Should().NotContain(4);
+            board.GetPossibleValues(29).Should().NotContain(4);
+            board.GetPossibleValues(38).Should().NotContain(4);
+            board.GetPossibleValues(47).Should().NotContain(4);
 
-            cellData[2].Should().NotContain(4);
-            cellData[11].Should().NotContain(4);
-            cellData[20].Should().NotContain(4);
-            cellData[29].Should().NotContain(4);
-            cellData[38].Should().NotContain(4);
-            cellData[47].Should().NotContain(4);
-
-            cellData[35].Should().NotContain(2);
-            cellData[44].Should().NotContain(2);
-            cellData[53].Should().NotContain(2);
-            cellData[62].Should().NotContain(2);
-            cellData[71].Should().NotContain(2);
-            cellData[80].Should().NotContain(2);
+            board.GetPossibleValues(35).Should().NotContain(2);
+            board.GetPossibleValues(44).Should().NotContain(2);
+            board.GetPossibleValues(53).Should().NotContain(2);
+            board.GetPossibleValues(62).Should().NotContain(2);
+            board.GetPossibleValues(71).Should().NotContain(2);
+            board.GetPossibleValues(80).Should().NotContain(2);
         }
 
         [Test]
@@ -145,21 +141,19 @@ namespace SudokuRulesEngineTests.Rules
 
             Rule.ApplyRule(ref board).Should().BeTrue();
 
-            List<List<int>> cellData = board.GetCellData();
+            board.GetPossibleValues(4).Should().NotContain(9);
+            board.GetPossibleValues(13).Should().NotContain(9);
+            board.GetPossibleValues(22).Should().NotContain(9);
+            board.GetPossibleValues(58).Should().NotContain(9);
+            board.GetPossibleValues(67).Should().NotContain(9);
+            board.GetPossibleValues(76).Should().NotContain(9);
 
-            cellData[4].Should().NotContain(9);
-            cellData[13].Should().NotContain(9);
-            cellData[22].Should().NotContain(9);
-            cellData[58].Should().NotContain(9);
-            cellData[67].Should().NotContain(9);
-            cellData[76].Should().NotContain(9);
-
-            cellData[45].Should().NotContain(6);
-            cellData[46].Should().NotContain(6);
-            cellData[47].Should().NotContain(6);
-            cellData[51].Should().NotContain(6);
-            cellData[52].Should().NotContain(6);
-            cellData[53].Should().NotContain(6);
+            board.GetPossibleValues(45).Should().NotContain(6);
+            board.GetPossibleValues(46).Should().NotContain(6);
+            board.GetPossibleValues(47).Should().NotContain(6);
+            board.GetPossibleValues(51).Should().NotContain(6);
+            board.GetPossibleValues(52).Should().NotContain(6);
+            board.GetPossibleValues(53).Should().NotContain(6);
         }
 
         [Test]

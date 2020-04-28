@@ -55,7 +55,7 @@ namespace SudokuRulesEngineTests.Rules
 
             for(int index = 0; index < GridMath.TotalNumberOfCells; index++)
             {
-                board.GetCellData()[index].Should().Equal(oldBoard.GetCellData()[index]);
+                board.GetPossibleValues(index).Should().Equal(oldBoard.GetPossibleValues(index));
             }
         }
 
@@ -73,8 +73,8 @@ namespace SudokuRulesEngineTests.Rules
 
             Rule.ApplyRule(ref board).Should().BeTrue();
 
-            board.GetCellData()[20].Count.Should().Be(1);
-            board.GetCellData()[20].First().Should().Be(9);
+            board.GetPossibleValues(20).Count.Should().Be(1);
+            board.GetPossibleValues(20).First().Should().Be(9);
         }
 
         [Test]
@@ -91,8 +91,8 @@ namespace SudokuRulesEngineTests.Rules
 
             Rule.ApplyRule(ref board).Should().BeTrue();
 
-            board.GetCellData()[75].Count.Should().Be(1);
-            board.GetCellData()[75].First().Should().Be(2);
+            board.GetPossibleValues(75).Count.Should().Be(1);
+            board.GetPossibleValues(75).First().Should().Be(2);
         }
 
         [Test]
@@ -109,8 +109,8 @@ namespace SudokuRulesEngineTests.Rules
 
             Rule.ApplyRule(ref board).Should().BeTrue();
 
-            board.GetCellData()[59].Count.Should().Be(1);
-            board.GetCellData()[59].First().Should().Be(4);
+            board.GetPossibleValues(59).Count.Should().Be(1);
+            board.GetPossibleValues(59).First().Should().Be(4);
         }
 
         [Test]
@@ -163,20 +163,20 @@ namespace SudokuRulesEngineTests.Rules
             
             Rule.ApplyRule(ref board).Should().BeTrue();
 
-            board.GetCellData()[22].Count.Should().Be(1);
-            board.GetCellData()[22].First().Should().Be(7);
+            board.GetPossibleValues(22).Count.Should().Be(1);
+            board.GetPossibleValues(22).First().Should().Be(7);
 
-            board.GetCellData()[54].Count.Should().Be(1);
-            board.GetCellData()[54].First().Should().Be(2);
+            board.GetPossibleValues(54).Count.Should().Be(1);
+            board.GetPossibleValues(54).First().Should().Be(2);
 
-            board.GetCellData()[34].Count.Should().Be(1);
-            board.GetCellData()[34].First().Should().Be(5);
+            board.GetPossibleValues(34).Count.Should().Be(1);
+            board.GetPossibleValues(34).First().Should().Be(5);
 
-            board.GetCellData()[14].Count.Should().Be(1);
-            board.GetCellData()[14].First().Should().Be(9);
+            board.GetPossibleValues(14).Count.Should().Be(1);
+            board.GetPossibleValues(14).First().Should().Be(9);
 
-            board.GetCellData()[46].Count.Should().Be(1);
-            board.GetCellData()[46].First().Should().Be(6);
+            board.GetPossibleValues(46).Count.Should().Be(1);
+            board.GetPossibleValues(46).First().Should().Be(6);
         }
 
         [Test]
