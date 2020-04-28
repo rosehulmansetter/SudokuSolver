@@ -20,7 +20,7 @@ namespace SudokuRulesEngineTests.Rules
         }
 
         [Test]
-        public void RuleDoesNothingWhenNotCellsAreSolved()
+        public void RuleDoesNothingWhenNoCellsAreSolved()
         {
             board.RemoveValueFromCell(20, 5);
             board.RemoveValueFromCell(35, 6);
@@ -62,5 +62,17 @@ namespace SudokuRulesEngineTests.Rules
                 cellData[index].Should().NotContain(7);
             }
         }
+
+        [Test]
+        public void RuleDoesNotApplyWhenNoNewCellsAreSolved()
+        {
+            board.SetCell(20, 5);
+            board.SetCell(35, 6);
+            board.SetCell(35, 1);
+
+            Rule.ApplyRule(ref board).Should().BeTrue();
+            Rule.ApplyRule(ref board).Should().BeFalse();
+        }
+
     }
 }

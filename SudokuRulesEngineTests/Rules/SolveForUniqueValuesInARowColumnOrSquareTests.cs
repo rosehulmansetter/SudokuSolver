@@ -179,5 +179,20 @@ namespace SudokuRulesEngineTests.Rules
             board.GetCellData()[46].First().Should().Be(6);
         }
 
+        [Test]
+        public void RuleDoesNotApplyIfCellHasAlreadyBeenSolved()
+        {
+            board.RemoveValueFromCell(18, 7);
+            board.RemoveValueFromCell(19, 7);
+            board.RemoveValueFromCell(20, 7);
+            board.RemoveValueFromCell(21, 7);
+            board.SetCell(22, 7);
+            board.RemoveValueFromCell(23, 7);
+            board.RemoveValueFromCell(24, 7);
+            board.RemoveValueFromCell(25, 7);
+            board.RemoveValueFromCell(26, 7);
+            Rule.ApplyRule(ref board).Should().BeFalse();
+        }
+
     }
 }
