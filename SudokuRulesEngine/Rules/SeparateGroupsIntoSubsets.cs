@@ -68,7 +68,7 @@ namespace SudokuRulesEngine.Rules
             return ruleSucceeded;
         }
 
-        private bool SolveForCells(int groupSize, ref Board board, CellData cellData)
+        protected bool SolveForCells(int groupSize, ref Board board, CellData cellData)
         {
             bool ruleSucceeded = false;
 
