@@ -337,7 +337,7 @@ namespace SudokuRulesEngineTests.Rules
         }
 
         [Test]
-        public void RuleAppliesIfThreeValuesAreContainedInThreeCells()
+        public void RuleAppliesIfThreeValuesAreContainedInOnlyThreeCells()
         {
             board.RemoveValueFromCell(9, 1);
             board.RemoveValueFromCell(9, 3);
@@ -366,39 +366,206 @@ namespace SudokuRulesEngineTests.Rules
         }
 
         [Test]
-        public void RuleAppliesIfThreeValuesAreContainedInOnlyThreeCells()
+        public void RuleAppliesIfThreeCellsOnlyHaveThreeValues()
         {
+            board.RemoveValueFromCell(14, 3);
+            board.RemoveValueFromCell(14, 4);
+            board.RemoveValueFromCell(14, 5);
+            board.RemoveValueFromCell(14, 6);
+            board.RemoveValueFromCell(14, 8);
+            board.RemoveValueFromCell(14, 9);
 
+            board.RemoveValueFromCell(32, 3);
+            board.RemoveValueFromCell(32, 4);
+            board.RemoveValueFromCell(32, 5);
+            board.RemoveValueFromCell(32, 6);
+            board.RemoveValueFromCell(32, 8);
+            board.RemoveValueFromCell(32, 9);
+
+            board.RemoveValueFromCell(50, 3);
+            board.RemoveValueFromCell(50, 4);
+            board.RemoveValueFromCell(50, 5);
+            board.RemoveValueFromCell(50, 6);
+            board.RemoveValueFromCell(50, 8);
+            board.RemoveValueFromCell(50, 9);
+
+            Rule.Solve(3, ref board, board.GetCellDataForColumn(5)).Should().BeTrue();
+
+            board.GetPossibleValues(5).Should().Equal(new List<int> { 3, 4, 5, 6, 8, 9 });
+            board.GetPossibleValues(23).Should().Equal(new List<int> { 3, 4, 5, 6, 8, 9 });
+            board.GetPossibleValues(41).Should().Equal(new List<int> { 3, 4, 5, 6, 8, 9 });
+            board.GetPossibleValues(59).Should().Equal(new List<int> { 3, 4, 5, 6, 8, 9 });
+            board.GetPossibleValues(68).Should().Equal(new List<int> { 3, 4, 5, 6, 8, 9 });
+            board.GetPossibleValues(77).Should().Equal(new List<int> { 3, 4, 5, 6, 8, 9 });
         }
 
         [Test]
         public void RuleAppliesIfFourValuesAreContainedInFourCells()
         {
+            board.RemoveValueFromCell(54, 2);
+            board.RemoveValueFromCell(54, 6);
+            board.RemoveValueFromCell(54, 7);
+            board.RemoveValueFromCell(54, 8);
+            board.RemoveValueFromCell(56, 2);
+            board.RemoveValueFromCell(56, 6);
+            board.RemoveValueFromCell(56, 7);
+            board.RemoveValueFromCell(56, 8);
+            board.RemoveValueFromCell(64, 2);
+            board.RemoveValueFromCell(64, 6);
+            board.RemoveValueFromCell(64, 7);
+            board.RemoveValueFromCell(64, 8);
+            board.RemoveValueFromCell(73, 2);
+            board.RemoveValueFromCell(73, 6);
+            board.RemoveValueFromCell(73, 7);
+            board.RemoveValueFromCell(73, 8);
+            board.RemoveValueFromCell(74, 2);
+            board.RemoveValueFromCell(74, 6);
+            board.RemoveValueFromCell(74, 7);
+            board.RemoveValueFromCell(74, 8);
 
+            Rule.Solve(4, ref board, board.GetCellDataForSquare(6)).Should().BeTrue();
+
+            board.GetPossibleValues(55).Should().Equal(new List<int> { 2, 6, 7, 8 });
+            board.GetPossibleValues(63).Should().Equal(new List<int> { 2, 6, 7, 8 });
+            board.GetPossibleValues(65).Should().Equal(new List<int> { 2, 6, 7, 8 });
+            board.GetPossibleValues(72).Should().Equal(new List<int> { 2, 6, 7, 8 });
         }
 
         [Test]
-        public void RuleAppliesIfFourValuesAreContainedInOnlyFourCells()
+        public void RuleAppliesIfFourCellsOnlyHaveFourValues()
         {
+            board.RemoveValueFromCell(45, 1);
+            board.RemoveValueFromCell(45, 3);
+            board.RemoveValueFromCell(45, 5);
+            board.RemoveValueFromCell(45, 8);
+            board.RemoveValueFromCell(45, 9);
 
+            board.RemoveValueFromCell(49, 1);
+            board.RemoveValueFromCell(49, 3);
+            board.RemoveValueFromCell(49, 5);
+            board.RemoveValueFromCell(49, 8);
+            board.RemoveValueFromCell(49, 9);
+
+            board.RemoveValueFromCell(50, 1);
+            board.RemoveValueFromCell(50, 3);
+            board.RemoveValueFromCell(50, 5);
+            board.RemoveValueFromCell(50, 8);
+            board.RemoveValueFromCell(50, 9);
+
+            board.RemoveValueFromCell(52, 1);
+            board.RemoveValueFromCell(52, 3);
+            board.RemoveValueFromCell(52, 5);
+            board.RemoveValueFromCell(52, 8);
+            board.RemoveValueFromCell(52, 9);
+
+            Rule.Solve(4, ref board, board.GetCellDataForRow(5)).Should().BeTrue();
+
+            board.GetPossibleValues(46).Should().Equal(new List<int> { 1, 3, 5, 8, 9 });
+            board.GetPossibleValues(47).Should().Equal(new List<int> { 1, 3, 5, 8, 9 });
+            board.GetPossibleValues(48).Should().Equal(new List<int> { 1, 3, 5, 8, 9 });
+            board.GetPossibleValues(51).Should().Equal(new List<int> { 1, 3, 5, 8, 9 });
+            board.GetPossibleValues(53).Should().Equal(new List<int> { 1, 3, 5, 8, 9 });
         }
 
         [Test]
         public void RuleAppliesIfFiveValuesAreContainedInFiveCells()
         {
+            board.RemoveValueFromCell(15, 1);
+            board.RemoveValueFromCell(15, 3);
+            board.RemoveValueFromCell(15, 4);
+            board.RemoveValueFromCell(15, 7);
+            board.RemoveValueFromCell(15, 8);
+            board.RemoveValueFromCell(17, 1);
+            board.RemoveValueFromCell(17, 3);
+            board.RemoveValueFromCell(17, 4);
+            board.RemoveValueFromCell(17, 7);
+            board.RemoveValueFromCell(17, 8);
+            board.RemoveValueFromCell(24, 1);
+            board.RemoveValueFromCell(24, 3);
+            board.RemoveValueFromCell(24, 4);
+            board.RemoveValueFromCell(24, 7);
+            board.RemoveValueFromCell(24, 8);
+            board.RemoveValueFromCell(25, 1);
+            board.RemoveValueFromCell(25, 3);
+            board.RemoveValueFromCell(25, 4);
+            board.RemoveValueFromCell(25, 7);
+            board.RemoveValueFromCell(25, 8);
 
+            Rule.Solve(5, ref board, board.GetCellDataForSquare(2)).Should().BeTrue();
+
+            board.GetPossibleValues(6).Should().Equal(new List<int> { 1, 3, 4, 7, 8 });
+            board.GetPossibleValues(7).Should().Equal(new List<int> { 1, 3, 4, 7, 8 });
+            board.GetPossibleValues(8).Should().Equal(new List<int> { 1, 3, 4, 7, 8 });
+            board.GetPossibleValues(16).Should().Equal(new List<int> { 1, 3, 4, 7, 8 });
+            board.GetPossibleValues(26).Should().Equal(new List<int> { 1, 3, 4, 7, 8 });
         }
 
         [Test]
-        public void RuleAppliesIfFiveValuesAreContainedInOnlyFiveCells()
+        public void RuleAppliesIfFiveCellsOnlyHaveFiveValues()
         {
+            board.RemoveValueFromCell(1, 4);
+            board.RemoveValueFromCell(1, 5);
+            board.RemoveValueFromCell(1, 6);
+            board.RemoveValueFromCell(1, 7);
 
+            board.RemoveValueFromCell(10, 4);
+            board.RemoveValueFromCell(10, 5);
+            board.RemoveValueFromCell(10, 6);
+            board.RemoveValueFromCell(10, 7);
+
+            board.RemoveValueFromCell(28, 4);
+            board.RemoveValueFromCell(28, 5);
+            board.RemoveValueFromCell(28, 6);
+            board.RemoveValueFromCell(28, 7);
+
+            board.RemoveValueFromCell(46, 4);
+            board.RemoveValueFromCell(46, 5);
+            board.RemoveValueFromCell(46, 6);
+            board.RemoveValueFromCell(46, 7);
+
+            board.RemoveValueFromCell(64, 4);
+            board.RemoveValueFromCell(64, 5);
+            board.RemoveValueFromCell(64, 6);
+            board.RemoveValueFromCell(64, 7);
+
+            Rule.Solve(5, ref board, board.GetCellDataForColumn(1)).Should().BeTrue();
+
+            board.GetPossibleValues(19).Should().Equal(new List<int> { 4, 5, 6, 7 });
+            board.GetPossibleValues(37).Should().Equal(new List<int> { 4, 5, 6, 7 });
+            board.GetPossibleValues(55).Should().Equal(new List<int> { 4, 5, 6, 7 });
+            board.GetPossibleValues(73).Should().Equal(new List<int> { 4, 5, 6, 7 });
         }
 
         [Test]
         public void RuleDoesNotApplyIfSubgroupsAreAlreadySeparated()
         {
+            board.RemoveValueFromCell(27, 7);
+            board.RemoveValueFromCell(27, 2);
+            board.RemoveValueFromCell(28, 7);
+            board.RemoveValueFromCell(28, 2);
+            board.RemoveValueFromCell(29, 7);
+            board.RemoveValueFromCell(29, 2);
+            board.RemoveValueFromCell(36, 7);
+            board.RemoveValueFromCell(36, 2);
+            board.RemoveValueFromCell(38, 7);
+            board.RemoveValueFromCell(38, 2);
+            board.RemoveValueFromCell(46, 7);
+            board.RemoveValueFromCell(46, 2);
+            board.RemoveValueFromCell(47, 7);
+            board.RemoveValueFromCell(47, 2);
 
+            Rule.Solve(2, ref board, board.GetCellDataForSquare(3)).Should().BeTrue();
+
+            Board oldBoard = new Board(board);
+
+            Rule.Solve(2, ref board, board.GetCellDataForRow(3)).Should().BeFalse();
+
+            for (int index = 0; index < GridMath.TotalNumberOfCells; index++)
+            {
+                List<int> expectedValues = oldBoard.GetPossibleValues(index);
+                List<int> actualValues = board.GetPossibleValues(index);
+                expectedValues.Should().Equal(actualValues);
+            }
         }
     }
 
