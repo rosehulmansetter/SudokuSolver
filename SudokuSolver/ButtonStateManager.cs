@@ -7,12 +7,12 @@ namespace SudokuSolver
     public class ButtonStateManager
     {
         public const int All = 0b_111;
-        public const int EditAndSolving = 0b_110;
-        public const int EditAndSolved = 0b_101;
-        public const int SolvingAndSolved = 0b_011;
+        public const int EditAndSolved = 0b_110;
+        public const int EditAndSolving = 0b_101;
+        public const int SolvedAndSolving = 0b_011;
         public const int Edit = 0b_100;
-        public const int Solving = 0b_010;
-        public const int Solved = 0b_001;
+        public const int Solved = 0b_010;
+        public const int Solving = 0b_001;
 
         private List<ButtonManager> Buttons;
 

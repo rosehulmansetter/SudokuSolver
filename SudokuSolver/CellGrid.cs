@@ -11,28 +11,13 @@ namespace SudokuSolver
 
         public CellGrid()
         {
-            cells = new List<Cell>();
-            GenerateCells();
+            cells = Enumerable.Repeat(new Cell(), GridMath.TotalNumberOfCells).ToList();
             ResetSelectedCell();
-        }
-
-        private void GenerateCells()
-        {
-            for (int i = 0; i < GridMath.TotalNumberOfCells; i++)
-            {
-                Cell c = new Cell();
-                cells.Add(c);
-            }
         }
 
         public Cell GetCellByIndices(int rowIndex, int columnIndex)
         {
             return cells[GridMath.GetIndexByRowAndColumnIndices(rowIndex, columnIndex)];
-        }
-
-        public Cell GetCellByIndex(int index)
-        {
-            return cells[index];
         }
 
         public void EnterNumber(int numberPressed)
@@ -42,13 +27,6 @@ namespace SudokuSolver
             {
                 SetSelectedIndex(selectedCell + 1);
             }
-        }
-
-        private void SetSelectedIndex(int selectedIndex)
-        {
-            cells[selectedCell].SetAsUnselected();
-            selectedCell = selectedIndex;
-            cells[selectedCell].SetAsSelected();
         }
 
         public void MoveRight()
@@ -98,23 +76,6 @@ namespace SudokuSolver
             cells[selectedCell].Unset();
         }
 
-        public void SetHintsVisible(bool visible)
-        {
-            cells.ForEach(c => c.SetHintsVisible(visible));
-        }
-
-        public void UnselectSelectedCell()
-        {
-            cells[selectedCell].SetAsUnselected();
-        }
-
-        public void ResetSelectedCell()
-        {
-            UnselectSelectedCell();
-            selectedCell = 0;
-            cells[selectedCell].SetAsSelected();
-        }
-
         public void ClearAllCellValues()
         {
             cells.ForEach(c => c.Unset());
@@ -151,6 +112,30 @@ namespace SudokuSolver
         public void UpdateCell(int index, List<int> possibleValues)
         {
             cells[index].PossibleNumbers = possibleValues;
+        }
+
+        private void SetSelectedIndex(int selectedIndex)
+        {
+            cells[selectedCell].SetAsUnselected();
+            selectedCell = selectedIndex;
+            cells[selectedCell].SetAsSelected();
+        }
+
+        private void SetHintsVisible(bool visible)
+        {
+            cells.ForEach(c => c.SetHintsVisible(visible));
+        }
+
+        private void UnselectSelectedCell()
+        {
+            cells[selectedCell].SetAsUnselected();
+        }
+
+        private void ResetSelectedCell()
+        {
+            UnselectSelectedCell();
+            selectedCell = 0;
+            cells[selectedCell].SetAsSelected();
         }
     }
 }

@@ -15,7 +15,7 @@ namespace SudokuSolver
         private CellGrid cellGrid;
         private RulesEngine rulesEngine;
         GameMode Mode;
-        private int SolutionIndexShown = 1;
+        private int SolutionIndexShown = 0;
         List<Board> Solutions;
         ButtonStateManager Buttons;
 
