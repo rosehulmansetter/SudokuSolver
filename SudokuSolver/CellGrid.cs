@@ -1,5 +1,6 @@
 ﻿using SudokuRulesEngine;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace SudokuSolver
 {
@@ -119,15 +120,28 @@ namespace SudokuSolver
             cells.ForEach(c => c.Unset());
         }
 
+        public void GoToGameMode(GameMode mode)
+        {
+            SetHintsVisible(mode != GameMode.Edit);
+            if (mode == GameMode.Edit)
+            {
+                ResetSelectedCell();
+            }
+            else
+            {
+                UnselectSelectedCell();
+            }
+        }
+
         public Dictionary<int, int> GetSolvedCellData()
         {
             Dictionary<int, int> solvedCells = new Dictionary<int, int>();
             for(int i = 0; i < GridMath.TotalNumberOfCells; i++)
             {
                 Cell cell = cells[i];
-                if(cell.PossibleNumbers.Count == 1)
+                if(cell.IsSolved())
                 {
-                    solvedCells.Add(i, cell.PossibleNumbers[0]);
+                    solvedCells.Add(i, cell.PossibleNumbers.First());
                 }
             }
 

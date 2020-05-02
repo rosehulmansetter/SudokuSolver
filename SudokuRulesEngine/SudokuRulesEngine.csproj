@@ -44,6 +44,7 @@
     <Compile Include="BoardEventArgs.cs" />
     <Compile Include="CellData.cs" />
     <Compile Include="ExtensionMethods\HashSetExtensions.cs" />
+    <Compile Include="ExtensionMethods\ListExtensions.cs" />
     <Compile Include="GridMath.cs" />
     <Compile Include="Rule.cs" />
     <Compile Include="RulesEngine.cs" />

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using SudokuRulesEngine.ExtensionMethods;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace SudokuRulesEngine
@@ -11,7 +12,7 @@ namespace SudokuRulesEngine
 
             foreach(int index in Keys)
             {
-                if(this[index].Count == 1)
+                if(this[index].IsSolved())
                 {
                     result.Remove(this[index].First());
                 }

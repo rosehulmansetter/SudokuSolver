@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SudokuRulesEngine.ExtensionMethods;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -50,7 +51,7 @@ namespace SudokuRulesEngine
 
         public bool IsSolved()
         {
-            return cellData.All(c => c.Count == 1);
+            return cellData.All(c => c.IsSolved());
         }
 
         public bool IsValid()
@@ -81,6 +82,11 @@ namespace SudokuRulesEngine
                 result.Add(index, cellData[index]);
             }
             return result;
+        }
+
+        public bool IsCellSolved(int index)
+        {
+            return cellData[index].IsSolved();
         }
     }
 }

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows;
+using System.Linq;
 
 namespace SudokuSolver
 {
@@ -9,17 +11,33 @@ namespace SudokuSolver
     {
         private List<int> possibleNumbers;
         private bool showHints;
+        private Dictionary<int, Label> HintLabels;
 
         public Cell()
         {
             InitializeComponent();
-            showHints = false;
+            SetUpHintLabels();
             SetInitialPotentialValues();
+            SetHintsVisible(false);
+        }
+
+        private void SetUpHintLabels()
+        {
+            HintLabels = new Dictionary<int, Label>();
+            HintLabels.Add(1, OneLabel);
+            HintLabels.Add(2, TwoLabel);
+            HintLabels.Add(3, ThreeLabel);
+            HintLabels.Add(4, FourLabel);
+            HintLabels.Add(5, FiveLabel);
+            HintLabels.Add(6, SixLabel);
+            HintLabels.Add(7, SevenLabel);
+            HintLabels.Add(8, EightLabel);
+            HintLabels.Add(9, NineLabel);
         }
 
         private void SetInitialPotentialValues()
         {
-            possibleNumbers = GridMath.AllPossibleValues();
+            PossibleNumbers = GridMath.AllPossibleValues();
         }
 
         public List<int> PossibleNumbers
@@ -37,84 +55,27 @@ namespace SudokuSolver
 
         public void Set(int number)
         {
-            possibleNumbers = new List<int>() { number };
+            PossibleNumbers = new List<int>() { number };
         }
 
         private void UpdateUI()
         {
-            if(!showHints || possibleNumbers.Count == 1)
+            SolvedLabel.Visibility = IsSolved() ? Visibility.Visible : Visibility.Hidden;
+            SolvedLabel.Content = possibleNumbers.First().ToString();
+
+            foreach(int possibleValue in HintLabels.Keys)
             {
-                OneLabel.Visibility = System.Windows.Visibility.Hidden;
-                TwoLabel.Visibility = System.Windows.Visibility.Hidden;
-                ThreeLabel.Visibility = System.Windows.Visibility.Hidden;
-                FourLabel.Visibility = System.Windows.Visibility.Hidden;
-                FiveLabel.Visibility = System.Windows.Visibility.Hidden;
-                SixLabel.Visibility = System.Windows.Visibility.Hidden;
-                SevenLabel.Visibility = System.Windows.Visibility.Hidden;
-                EightLabel.Visibility = System.Windows.Visibility.Hidden;
-                NineLabel.Visibility = System.Windows.Visibility.Hidden;
-
-                if(possibleNumbers.Count == 1)
-                {
-                    SolvedLabel.Visibility = System.Windows.Visibility.Visible;
-                    SolvedLabel.Content = ((int)possibleNumbers[0]).ToString();
-                }
-                else
-                {
-                    SolvedLabel.Visibility = System.Windows.Visibility.Hidden;
-                }
-            }
-            else
-            {
-                SolvedLabel.Visibility = System.Windows.Visibility.Hidden;
-                if (possibleNumbers.Contains(1))
-                    OneLabel.Visibility = System.Windows.Visibility.Visible;
-                else
-                    OneLabel.Visibility = System.Windows.Visibility.Hidden;
-
-                if (possibleNumbers.Contains(2))
-                    TwoLabel.Visibility = System.Windows.Visibility.Visible;
-                else
-                    TwoLabel.Visibility = System.Windows.Visibility.Hidden;
-
-                if (possibleNumbers.Contains(3))
-                    ThreeLabel.Visibility = System.Windows.Visibility.Visible;
-                else
-                    ThreeLabel.Visibility = System.Windows.Visibility.Hidden;
-
-                if (possibleNumbers.Contains(4))
-                    FourLabel.Visibility = System.Windows.Visibility.Visible;
-                else
-                    FourLabel.Visibility = System.Windows.Visibility.Hidden;
-
-                if (possibleNumbers.Contains(5))
-                    FiveLabel.Visibility = System.Windows.Visibility.Visible;
-                else
-                    FiveLabel.Visibility = System.Windows.Visibility.Hidden;
-
-                if (possibleNumbers.Contains(6))
-                    SixLabel.Visibility = System.Windows.Visibility.Visible;
-                else
-                    SixLabel.Visibility = System.Windows.Visibility.Hidden;
-
-                if (possibleNumbers.Contains(7))
-                    SevenLabel.Visibility = System.Windows.Visibility.Visible;
-                else
-                    SevenLabel.Visibility = System.Windows.Visibility.Hidden;
-
-                if (possibleNumbers.Contains(8))
-                    EightLabel.Visibility = System.Windows.Visibility.Visible;
-                else
-                    EightLabel.Visibility = System.Windows.Visibility.Hidden;
-
-                if (possibleNumbers.Contains(9))
-                    NineLabel.Visibility = System.Windows.Visibility.Visible;
-                else
-                    NineLabel.Visibility = System.Windows.Visibility.Hidden;
+                bool showHint = showHints && !IsSolved() && possibleNumbers.Contains(possibleValue);
+                HintLabels[possibleValue].Visibility = showHint ? Visibility.Visible : Visibility.Hidden;
             }
         }
 
-        internal void Unset()
+        public bool IsSolved()
+        {
+            return possibleNumbers.Count == 1;
+        }
+
+        public void Unset()
         {
             SetInitialPotentialValues();
         }

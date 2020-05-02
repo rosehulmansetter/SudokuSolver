@@ -11,14 +11,14 @@ namespace SudokuRulesEngine.Rules
 
             for(int i = 0; i < GridMath.TotalNumberOfCells; i++)
             {
-                var currentCellValues = board.GetPossibleValues(i);
-                if(currentCellValues.Count == 1)
+                if(board.IsCellSolved(i))
                 {
+                    int solvedValue = board.GetPossibleValues(i).First();
                     List<int> relatedCellIndices = GridMath.GetRelatedCellIndices(i);
 
                     foreach(int relatedCellIndex in relatedCellIndices)
                     {
-                        bool removalSuccessful = board.RemoveValueFromCell(relatedCellIndex, currentCellValues.First());
+                        bool removalSuccessful = board.RemoveValueFromCell(relatedCellIndex, solvedValue);
                         ruleSuccess |= removalSuccessful;
                     }
                 }

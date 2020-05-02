@@ -67,7 +67,7 @@ namespace SudokuRulesEngine
             else if (board.IsValid())
             {
                 int firstUnsolvedCellIndex = 0;
-                while (board.GetPossibleValues(firstUnsolvedCellIndex).Count == 1)
+                while (board.IsCellSolved(firstUnsolvedCellIndex))
                 {
                     firstUnsolvedCellIndex++;
                 }

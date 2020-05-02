@@ -126,27 +126,27 @@ namespace SudokuSolver
 
         private void SolvePuzzle(object sender, RoutedEventArgs e)
         {
-            Buttons.GoToGameMode(GameMode.Solving);
-            cellGrid.UnselectSelectedCell();
-            cellGrid.SetHintsVisible(true);
+            GoToGameMode(GameMode.Solving);
             rulesEngine.Solve(cellGrid.GetSolvedCellData());
         }
 
         private void EditPuzzle(object sender, RoutedEventArgs e)
         {
             MultipleSolutionsGrid.Visibility = Visibility.Hidden;
-            Buttons.GoToGameMode(GameMode.Edit);
-            cellGrid.SetHintsVisible(false);
-            cellGrid.ResetSelectedCell();
+            GoToGameMode(GameMode.Edit);
         }
 
         private void ResetPuzzle(object sender, RoutedEventArgs e)
         {
             MultipleSolutionsGrid.Visibility = Visibility.Hidden;
-            Buttons.GoToGameMode(GameMode.Edit);
-            cellGrid.SetHintsVisible(false);
-            cellGrid.ResetSelectedCell();
+            GoToGameMode(GameMode.Edit);
             cellGrid.ClearAllCellValues();
+        }
+
+        private void GoToGameMode(GameMode mode)
+        {
+            Buttons.GoToGameMode(mode);
+            cellGrid.GoToGameMode(mode);
         }
 
         private void CancelSolution(object sender, RoutedEventArgs e)
@@ -202,7 +202,5 @@ namespace SudokuSolver
             }
             MultipleSolutionText.Text = $"{SolutionIndexShown + 1} of {Solutions.Count}";
         }
-
-
     }
 }

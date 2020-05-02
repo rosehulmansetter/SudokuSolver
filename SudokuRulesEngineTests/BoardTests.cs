@@ -231,5 +231,43 @@ namespace SudokuRulesEngineTests
             board.GetPossibleValues(76).Should().Equal(new List<int> { 6 });
             board.GetPossibleValues(55).Should().Equal(new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 });
         }
+
+        [Test]
+        public void TestIsCellSolved()
+        {
+            board.IsCellSolved(55).Should().BeFalse();
+
+            board.RemoveValueFromCell(55, 6);
+            board.IsCellSolved(55).Should().BeFalse();
+
+            board.RemoveValueFromCell(55, 3);
+            board.IsCellSolved(55).Should().BeFalse();
+
+            board.RemoveValueFromCell(55, 8);
+            board.IsCellSolved(55).Should().BeFalse();
+
+            board.RemoveValueFromCell(55, 4);
+            board.IsCellSolved(55).Should().BeFalse();
+
+            board.RemoveValueFromCell(55, 1);
+            board.IsCellSolved(55).Should().BeFalse();
+
+            board.RemoveValueFromCell(55, 5);
+            board.IsCellSolved(55).Should().BeFalse();
+
+            board.RemoveValueFromCell(55, 2);
+            board.IsCellSolved(55).Should().BeFalse();
+
+            board.RemoveValueFromCell(55, 7);
+            board.IsCellSolved(55).Should().BeTrue();
+
+            board.RemoveValueFromCell(55, 9);
+            board.IsCellSolved(55).Should().BeFalse();
+
+            board.IsCellSolved(60).Should().BeFalse();
+            board.SetCell(60, 1);
+
+            board.IsCellSolved(60).Should().BeTrue();
+        }
     }
 }
