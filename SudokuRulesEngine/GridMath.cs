@@ -7,7 +7,8 @@ namespace SudokuRulesEngine
     public static class GridMath
     {
         public const int TotalNumberOfCells = 81;
-        public const int CellsInRow = 9, CellsInColumn = 9, CellsInSquare = 9;
+        public const int CellsInRow = 9, CellsInColumn = 9, CellsInSquare = 9,
+            SquareSize = 3;
 
         public static List<int> AllPossibleValues()
         {

@@ -11,7 +11,6 @@ namespace SudokuSolver
 {
     public partial class MainWindow : Window
     {
-        private const int SQUARE_SIZE = 3;
         private CellGrid cellGrid;
         private RulesEngine rulesEngine;
         GameMode Mode;
@@ -66,9 +65,9 @@ namespace SudokuSolver
 
         private void SetUpSquare(int gridRowIndex, int gridColumnIndex, Grid grid)
         {
-            for (int row = 0; row < SQUARE_SIZE; row++)
+            for (int row = 0; row < GridMath.SquareSize; row++)
             {
-                for(int column = 0; column < SQUARE_SIZE; column++)
+                for(int column = 0; column < GridMath.SquareSize; column++)
                 {
                     Cell c = cellGrid.GetCellByIndices(3 * gridRowIndex + row, 3 * gridColumnIndex + column);
 
