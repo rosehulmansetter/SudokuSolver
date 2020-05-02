@@ -23,16 +23,18 @@ namespace SudokuSolver
 
         private void SetUpHintLabels()
         {
-            HintLabels = new Dictionary<int, Label>();
-            HintLabels.Add(1, OneLabel);
-            HintLabels.Add(2, TwoLabel);
-            HintLabels.Add(3, ThreeLabel);
-            HintLabels.Add(4, FourLabel);
-            HintLabels.Add(5, FiveLabel);
-            HintLabels.Add(6, SixLabel);
-            HintLabels.Add(7, SevenLabel);
-            HintLabels.Add(8, EightLabel);
-            HintLabels.Add(9, NineLabel);
+            HintLabels = new Dictionary<int, Label>
+            {
+                { 1, OneLabel },
+                { 2, TwoLabel },
+                { 3, ThreeLabel },
+                { 4, FourLabel },
+                { 5, FiveLabel },
+                { 6, SixLabel },
+                { 7, SevenLabel },
+                { 8, EightLabel },
+                { 9, NineLabel }
+            };
         }
 
         private void SetInitialPotentialValues()

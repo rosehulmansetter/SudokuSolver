@@ -53,7 +53,7 @@ namespace SudokuSolver
 
         public void MoveRight()
         {
-            if(selectedCell % 9 != 8)
+            if(GridMath.GetColumnForIndex(selectedCell) != 8)
             {
                 SetSelectedIndex(selectedCell + 1);
             }
@@ -61,7 +61,7 @@ namespace SudokuSolver
 
         public void MoveLeft()
         {
-            if (selectedCell % 9 != 0)
+            if (GridMath.GetColumnForIndex(selectedCell) != 0)
             {
                 SetSelectedIndex(selectedCell - 1);
             }
@@ -69,7 +69,7 @@ namespace SudokuSolver
 
         public void MoveUp()
         {
-            if (selectedCell > 8)
+            if (GridMath.GetRowForIndex(selectedCell) > 0)
             {
                 SetSelectedIndex(selectedCell - 9);
             }
@@ -77,7 +77,7 @@ namespace SudokuSolver
 
         public void MoveDown()
         {
-            if (selectedCell < 72)
+            if (GridMath.GetRowForIndex(selectedCell) < 8)
             {
                 SetSelectedIndex(selectedCell + 9);
             }
