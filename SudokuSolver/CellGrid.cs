@@ -11,7 +11,7 @@ namespace SudokuSolver
 
         public CellGrid()
         {
-            cells = Enumerable.Repeat(new Cell(), GridMath.TotalNumberOfCells).ToList();
+            cells = Enumerable.Range(0, GridMath.TotalNumberOfCells).Select(i => new Cell()).ToList();
             ResetSelectedCell();
         }
 
