@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SudokuRulesEngine.Rules;
+using System;
 using System.Collections.Generic;
 
 namespace SudokuRulesEngine
@@ -11,17 +12,18 @@ namespace SudokuRulesEngine
 
         public RulesEngine()
         {
-            rules = new List<Rule>();
+            rules = new List<Rule>
+            {
+                new ClearOptionsFromSolvedCells(),
+                new SolveForUniqueValuesInARowColumnOrSquare(),
+                new CheckForLinearValuesInSquares(),
+                new SeparateGroupsIntoSubsets()
+            };
         }
 
         public void Cancel()
         {
             Cancelled = true;
-        }
-
-        public void AddRule(Rule rule)
-        {
-            rules.Add(rule);
         }
 
         public void Solve(Dictionary<int, int> solvedCells)

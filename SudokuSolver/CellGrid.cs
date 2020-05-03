@@ -31,7 +31,7 @@ namespace SudokuSolver
 
         public void MoveRight()
         {
-            if(GridMath.GetColumnForIndex(selectedCell) != 8)
+            if(GridMath.GetColumnForIndex(selectedCell) < 8)
             {
                 SetSelectedIndex(selectedCell + 1);
             }
@@ -39,7 +39,7 @@ namespace SudokuSolver
 
         public void MoveLeft()
         {
-            if (GridMath.GetColumnForIndex(selectedCell) != 0)
+            if (GridMath.GetColumnForIndex(selectedCell) > 0)
             {
                 SetSelectedIndex(selectedCell - 1);
             }

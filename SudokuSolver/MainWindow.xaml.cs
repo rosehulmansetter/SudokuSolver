@@ -5,7 +5,6 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using SudokuRulesEngine;
-using SudokuRulesEngine.Rules;
 
 namespace SudokuSolver
 {
@@ -23,20 +22,15 @@ namespace SudokuSolver
             InitializeComponent();
             cellGrid = new CellGrid();
             Solutions = new List<Board>();
-            Mode = GameMode.Edit;
-            InitializeRulesEngine();
             SetUpSquares();
             InitializeButtonStates();
-            Buttons.GoToGameMode(GameMode.Edit);
+            InitializeRulesEngine();
+            GoToGameMode(GameMode.Edit);
         }
 
         private void InitializeRulesEngine()
         {
             rulesEngine = new RulesEngine();
-            rulesEngine.AddRule(new ClearOptionsFromSolvedCells());
-            rulesEngine.AddRule(new SolveForUniqueValuesInARowColumnOrSquare());
-            rulesEngine.AddRule(new CheckForLinearValuesInSquares());
-            rulesEngine.AddRule(new SeparateGroupsIntoSubsets());
             rulesEngine.SolutionComplete += HandleSolutionComplete;
         }
 
@@ -53,21 +47,11 @@ namespace SudokuSolver
             SetUpSquare(2, 2, BottomRightGrid);
         }
 
-        private void InitializeButtonStates()
-        {
-            Buttons = new ButtonStateManager();
-
-            Buttons.AddButton(SolveButton, ButtonStateManager.EditAndSolved, ButtonStateManager.Edit);
-            Buttons.AddButton(EditButton, ButtonStateManager.All, ButtonStateManager.Solved);
-            Buttons.AddButton(ResetButton, ButtonStateManager.All, ButtonStateManager.EditAndSolved);
-            Buttons.AddButton(CancelButton, ButtonStateManager.Solving, ButtonStateManager.Solving);
-        }
-
         private void SetUpSquare(int gridRowIndex, int gridColumnIndex, Grid grid)
         {
             for (int row = 0; row < GridMath.SquareSize; row++)
             {
-                for(int column = 0; column < GridMath.SquareSize; column++)
+                for (int column = 0; column < GridMath.SquareSize; column++)
                 {
                     Cell c = cellGrid.GetCellByIndices(3 * gridRowIndex + row, 3 * gridColumnIndex + column);
 
@@ -83,6 +67,16 @@ namespace SudokuSolver
                     grid.Children.Add(c);
                 }
             }
+        }
+
+        private void InitializeButtonStates()
+        {
+            Buttons = new ButtonStateManager();
+
+            Buttons.AddButton(SolveButton, ButtonStateManager.EditAndSolved, ButtonStateManager.Edit);
+            Buttons.AddButton(EditButton, ButtonStateManager.All, ButtonStateManager.Solved);
+            Buttons.AddButton(ResetButton, ButtonStateManager.All, ButtonStateManager.EditAndSolved);
+            Buttons.AddButton(CancelButton, ButtonStateManager.Solving, ButtonStateManager.Solving);
         }
 
         private void HandleKeyPress(object sender, KeyEventArgs e)
@@ -142,16 +136,17 @@ namespace SudokuSolver
             cellGrid.ClearAllCellValues();
         }
 
-        private void GoToGameMode(GameMode mode)
-        {
-            Buttons.GoToGameMode(mode);
-            cellGrid.GoToGameMode(mode);
-        }
-
         private void CancelSolution(object sender, RoutedEventArgs e)
         {
             rulesEngine.Cancel();
-            Buttons.GoToGameMode(GameMode.Edit);
+            GoToGameMode(GameMode.Edit);
+        }
+
+        private void GoToGameMode(GameMode mode)
+        {
+            Mode = mode;
+            Buttons.GoToGameMode(mode);
+            cellGrid.GoToGameMode(mode);
         }
 
         void HandleSolutionComplete(object sender, EventArgs args)
