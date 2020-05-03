@@ -63,12 +63,7 @@ namespace SudokuSolver
 
         public void MoveToNext()
         {
-            int newSelectedIndex = selectedCell + 1;
-            if(selectedCell == GridMath.TotalNumberOfCells)
-            {
-                newSelectedIndex = 0;
-            }
-            SetSelectedIndex(newSelectedIndex);
+            SetSelectedIndex((selectedCell + 1) % GridMath.TotalNumberOfCells);
         }
 
         public void ClearSelectedCell()
