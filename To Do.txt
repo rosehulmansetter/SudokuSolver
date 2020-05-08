@@ -1,0 +1,8 @@
+Simplify code-behind files
+Make cancel work
+
+Add tests
+- Rules engine
+- Cell Grid
+- Cell
+- Integration tests?
